@@ -65,10 +65,11 @@ import HeaderLink from './HeaderLink.astro';
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(9, 9, 11, 0.92);
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
+    transition: background 0.2s ease, border-color 0.2s ease;
   }
 
   .header-inner {
