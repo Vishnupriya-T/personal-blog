@@ -16,6 +16,7 @@
     "@astrojs/mdx": "^6.0.2",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/vercel": "^8.0.0",
     "@google/genai": "^2.8.0",
     "astro": "^6.4.4",
     "sharp": "^0.34.3"

@@ -13,192 +13,173 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   <body>
     <Header />
 
-    <main class="home-main">
+    <main class="home">
 
-      <!-- ======= HERO SECTION ======= -->
+      <!-- ═══ HERO ═══ -->
       <section class="hero" aria-label="Introduction">
-        <div class="hero-content">
-          <div class="hero-badge">
-            <span class="status-dot"></span>
-            Available for opportunities
+
+        <div class="hero-top">
+          <div class="hero-eyebrow">
+            <span class="dot-live"></span>
+            <span>Open to opportunities</span>
           </div>
 
           <h1 class="hero-title">
-            Hi, I'm <span class="glow-text">Vishnu.</span>
+            Senior DevOps<br/>Engineer.
           </h1>
 
-          <p class="hero-tagline">
-            Senior DevOps Engineer building scalable Kubernetes platforms,<br class="br-hide"/>
-            cloud infrastructure &amp; AI/MLOps-ready systems.
+          <p class="hero-sub">
+            Building scalable Kubernetes platforms, cloud infrastructure, and
+            AI/MLOps-ready systems for enterprise microservices at Freddie Mac.
           </p>
 
-          <div class="hero-pills">
-            <span class="pill">⚙️ Platform Engineering</span>
-            <span class="pill pill-teal">☁️ Cloud Native</span>
-            <span class="pill pill-green">🤖 AI/MLOps</span>
-          </div>
-
-          <div class="hero-actions">
-            <a href="/blog" class="btn btn-primary" id="hero-blog-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              Read Blog
-            </a>
-            <a href="/about" class="btn btn-secondary" id="hero-about-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-              About Me
-            </a>
-            <a href="https://www.linkedin.com/in/vishnu-priya-t/" target="_blank" rel="noopener" class="btn btn-ghost" id="hero-linkedin-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8.99h5V24H0V8.99zm7.5 0h4.78v2.09h.07c.67-1.27 2.3-2.61 4.74-2.61 5.07 0 6 3.34 6 7.67V24h-5V15.63c0-2.01-.04-4.6-2.8-4.6-2.8 0-3.23 2.18-3.23 4.44V24h-5V8.99z"/></svg>
-              LinkedIn
+          <div class="hero-cta">
+            <a href="/about" class="btn btn-primary" id="btn-about">About me</a>
+            <a href="/blog" class="btn btn-outline" id="btn-blog">Read blog</a>
+            <a href="https://www.linkedin.com/in/vishnu-priya-t/" target="_blank" rel="noopener" class="btn btn-ghost" id="btn-linkedin">
+              LinkedIn ↗
             </a>
           </div>
         </div>
 
-        <!-- Stats strip -->
-        <div class="stats-strip glass">
-          <div class="stat-item">
-            <span class="stat-num glow-text">5+</span>
-            <span class="stat-label">Years Experience</span>
+        <!-- Stats row -->
+        <div class="stats-row">
+          <div class="stat">
+            <span class="stat-n">5+</span>
+            <span class="stat-l">Years</span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-num glow-text">1000+</span>
-            <span class="stat-label">Microservices Managed</span>
+          <div class="stat-sep"></div>
+          <div class="stat">
+            <span class="stat-n">1000+</span>
+            <span class="stat-l">Microservices</span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-num glow-text">CKA</span>
-            <span class="stat-label">Certified Kubernetes Admin</span>
+          <div class="stat-sep"></div>
+          <div class="stat">
+            <span class="stat-n">CKA</span>
+            <span class="stat-l">Certified</span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-num glow-text">4.0</span>
-            <span class="stat-label">MS Data Science GPA</span>
+          <div class="stat-sep"></div>
+          <div class="stat">
+            <span class="stat-n">4.0</span>
+            <span class="stat-l">MS GPA</span>
           </div>
         </div>
       </section>
 
-      <!-- ======= EXPERTISE & CHAT SPLIT ======= -->
-      <section class="split-section">
+      <div class="divider"></div>
 
-        <!-- LEFT: Expertise cards -->
-        <div class="expertise-col">
-          <h2 class="section-title">
-            <span class="section-title-line"></span>
-            What I Do
-          </h2>
+      <!-- ═══ SPLIT: SKILLS + CHAT ═══ -->
+      <section class="split" aria-label="Skills and chat">
 
-          <div class="expertise-cards">
-            <article class="expertise-card glass" id="card-platform">
-              <div class="card-icon" style="background: linear-gradient(135deg,#7c3aed,#6d28d9);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-              </div>
-              <div class="card-body">
+        <!-- LEFT: skill list -->
+        <div class="skills-col">
+          <p class="col-label">Expertise</p>
+
+          <ul class="skill-list" role="list">
+            <li class="skill-item" id="skill-platform">
+              <div class="skill-num">01</div>
+              <div class="skill-body">
                 <h3>Platform Engineering</h3>
-                <p>Kubernetes, EKS, Terraform, Jenkins, Helm — building self-service infrastructure for 1000+ microservices.</p>
-                <div class="tag-row">
-                  <span class="tag">Kubernetes</span>
-                  <span class="tag">Terraform</span>
-                  <span class="tag">Helm</span>
+                <p>Kubernetes, EKS, Terraform, Jenkins, Helm — self-service infra for enterprise microservices at scale.</p>
+                <div class="skill-tags">
+                  <span class="badge">kubernetes</span>
+                  <span class="badge">terraform</span>
+                  <span class="badge">helm</span>
+                  <span class="badge">eks</span>
                 </div>
               </div>
-            </article>
+            </li>
 
-            <article class="expertise-card glass" id="card-cicd">
-              <div class="card-icon" style="background: linear-gradient(135deg,#0891b2,#06b6d4);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-              </div>
-              <div class="card-body">
-                <h3>CI/CD Governance</h3>
-                <p>Secure pipelines with enforced gates, deployment guardrails, observability &amp; failover automation.</p>
-                <div class="tag-row">
-                  <span class="tag">Jenkins</span>
-                  <span class="tag">GitHub Actions</span>
-                  <span class="tag">DevSecOps</span>
+            <li class="skill-item" id="skill-cicd">
+              <div class="skill-num">02</div>
+              <div class="skill-body">
+                <h3>CI/CD & Governance</h3>
+                <p>Secure pipelines, DevSecOps compliance, deployment guardrails, and production release controls.</p>
+                <div class="skill-tags">
+                  <span class="badge">jenkins</span>
+                  <span class="badge">github-actions</span>
+                  <span class="badge">fortify</span>
                 </div>
               </div>
-            </article>
+            </li>
 
-            <article class="expertise-card glass" id="card-aimlops">
-              <div class="card-icon" style="background: linear-gradient(135deg,#059669,#10b981);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-              </div>
-              <div class="card-body">
-                <h3>AI / MLOps</h3>
-                <p>LangChain, OpenAI embeddings, FAISS, Streamlit &amp; containerised model deployment on Kubernetes.</p>
-                <div class="tag-row">
-                  <span class="tag">LangChain</span>
-                  <span class="tag">FAISS</span>
-                  <span class="tag">SageMaker</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="expertise-card glass" id="card-cloud">
-              <div class="card-icon" style="background: linear-gradient(135deg,#d97706,#f59e0b);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>
-              </div>
-              <div class="card-body">
+            <li class="skill-item" id="skill-cloud">
+              <div class="skill-num">03</div>
+              <div class="skill-body">
                 <h3>Cloud Infrastructure</h3>
-                <p>AWS &amp; Azure — EC2, S3, RDS, IAM, Lambda, VPC. Multi-region, cost-optimised, resilient architectures.</p>
-                <div class="tag-row">
-                  <span class="tag">AWS</span>
-                  <span class="tag">Azure</span>
-                  <span class="tag">Ansible</span>
+                <p>AWS & Azure — multi-region resilient architectures with EC2, S3, RDS, IAM, Lambda and VPC.</p>
+                <div class="skill-tags">
+                  <span class="badge">aws</span>
+                  <span class="badge">azure</span>
+                  <span class="badge">ansible</span>
                 </div>
               </div>
-            </article>
-          </div>
+            </li>
+
+            <li class="skill-item" id="skill-ai">
+              <div class="skill-num">04</div>
+              <div class="skill-body">
+                <h3>AI / MLOps</h3>
+                <p>LangChain, OpenAI embeddings, FAISS, Streamlit, SageMaker — containerised model deployment on K8s.</p>
+                <div class="skill-tags">
+                  <span class="badge">langchain</span>
+                  <span class="badge">faiss</span>
+                  <span class="badge">sagemaker</span>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
 
-        <!-- RIGHT: Chat Panel -->
-        <aside class="chat-col" id="chat-panel-wrapper" aria-label="AI Chat Assistant">
-          <div class="chat-panel glass">
-            <div class="chat-header">
-              <div class="chat-avatar">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 4-2.35 7.43-5.75 9.17a10 10 0 0 1-8.5 0A10 10 0 0 1 2 12 10 10 0 0 1 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-              </div>
-              <div class="chat-title-block">
-                <h3 class="chat-title">Ask Vishnu <span class="ai-badge">AI</span></h3>
-                <p class="chat-subtitle">Ask me anything about my experience</p>
-              </div>
-              <div class="chat-online">
-                <span class="online-dot"></span>
-                <span>Online</span>
-              </div>
-            </div>
+        <!-- RIGHT: Chat panel -->
+        <aside class="chat-col" aria-label="AI chat assistant">
+          <div class="chat-card card" id="chat-widget">
 
-            <div class="chat-messages" id="home-messages" aria-live="polite">
-              <!-- Welcome bubble -->
-              <div class="msg-row msg-assistant">
-                <div class="msg-bubble">
-                  👋 Hi! I'm Vishnu's AI assistant. Ask me about my experience, skills, projects, or anything else you're curious about!
+            <div class="chat-hd">
+              <div class="chat-hd-left">
+                <div class="chat-avatar">VP</div>
+                <div>
+                  <p class="chat-name">Ask Vishnu <span class="badge badge-white">AI</span></p>
+                  <p class="chat-status"><span class="dot-live small"></span> Online</p>
                 </div>
               </div>
-            </div>
-
-            <div class="chat-suggested" id="suggested-questions">
-              <button class="suggested-btn" data-q="What are your main DevOps skills?">⚙️ DevOps skills</button>
-              <button class="suggested-btn" data-q="Tell me about your Freddie Mac experience">🏢 Freddie Mac work</button>
-              <button class="suggested-btn" data-q="What AI/ML projects have you built?">🤖 AI projects</button>
-            </div>
-
-            <div class="chat-input-row">
-              <textarea
-                id="home-question"
-                rows="1"
-                placeholder="Ask about my experience, projects, or skills…"
-                aria-label="Chat message input"
-              ></textarea>
-              <button id="home-ask-btn" class="send-btn btn-primary" aria-label="Send message">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <button class="btn btn-ghost icon-sm" id="chat-clear-btn" title="Clear conversation" aria-label="Clear chat">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
               </button>
             </div>
 
-            <p class="chat-disclaimer">Powered by Gemini · Streaming enabled</p>
+            <div class="chat-msgs" id="chat-msgs" aria-live="polite" aria-label="Chat messages">
+              <div class="msg msg-ai">
+                <p>Hi! I'm Vishnu's AI assistant. Ask me about my background, projects, or skills — I'll answer based on what I know about Vishnu.</p>
+              </div>
+            </div>
+
+            <!-- Quick prompts -->
+            <div class="quick-prompts" id="quick-prompts">
+              <button class="qp-btn" data-q="What are your top DevOps skills?">⚙ DevOps skills</button>
+              <button class="qp-btn" data-q="Tell me about your work at Freddie Mac">🏢 Freddie Mac</button>
+              <button class="qp-btn" data-q="What AI projects have you built?">🤖 AI projects</button>
+              <button class="qp-btn" data-q="What certifications do you have?">🎓 Certs</button>
+            </div>
+
+            <div class="chat-input-area">
+              <textarea
+                id="chat-input"
+                rows="1"
+                placeholder="Ask about experience, projects, skills…"
+                aria-label="Type your question"
+              ></textarea>
+              <button class="send-btn btn-primary btn" id="chat-send" aria-label="Send">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </button>
+            </div>
+
+            <p class="chat-footer-note">Powered by Gemini · Multi-turn conversation</p>
           </div>
         </aside>
-
       </section>
 
     </main>
@@ -206,14 +187,14 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     <Footer />
 
     <style>
-      /* ── HOME LAYOUT ── */
-      .home-main {
-        max-width: 1100px;
+      /* ── HOME ── */
+      .home {
+        max-width: 1080px;
         margin: 0 auto;
-        padding: 3rem 1.5rem 4rem;
+        padding: 3.5rem 1.5rem 5rem;
         display: flex;
         flex-direction: column;
-        gap: 4rem;
+        gap: 3rem;
       }
 
       /* ── HERO ── */
@@ -221,630 +202,531 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         display: flex;
         flex-direction: column;
         gap: 2.5rem;
-        animation: fadeInUp 0.7s ease both;
+        animation: fadeIn 0.5s ease both;
       }
 
-      .hero-content {
+      .hero-top {
         display: flex;
         flex-direction: column;
-        gap: 1.25rem;
-        max-width: 680px;
+        gap: 1.15rem;
+        max-width: 620px;
       }
 
-      .hero-badge {
+      .hero-eyebrow {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.35rem 1rem;
-        background: rgba(16,185,129,0.1);
-        border: 1px solid rgba(16,185,129,0.25);
-        border-radius: 999px;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 500;
-        color: var(--green);
-        width: fit-content;
-      }
-
-      .status-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--green);
-        animation: pulse-glow 2s ease-in-out infinite;
-        box-shadow: 0 0 6px var(--green);
-      }
-
-      .hero-title {
-        font-size: clamp(2.5rem, 6vw, 4rem);
-        font-weight: 800;
-        letter-spacing: -0.04em;
-        line-height: 1.1;
-        margin: 0;
-      }
-
-      .hero-tagline {
-        font-size: clamp(1rem, 2vw, 1.2rem);
-        color: var(--text-secondary);
-        line-height: 1.65;
-        margin: 0;
-      }
-
-      .br-hide { display: inline; }
-
-      .hero-pills {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-      .hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        align-items: center;
-        margin-top: 0.5rem;
-      }
-
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.6rem 1.3rem;
-        border-radius: var(--radius-sm);
-        font-size: 0.88rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: var(--transition);
-        cursor: pointer;
-        border: none;
-        letter-spacing: 0.01em;
-      }
-
-      .btn-primary {
-        background: linear-gradient(135deg, var(--accent), #6d28d9);
-        color: #fff;
-        box-shadow: 0 4px 16px rgba(124,58,237,0.35);
-      }
-      .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(124,58,237,0.5);
-        color: #fff;
-      }
-
-      .btn-secondary {
-        background: var(--bg-card);
-        color: var(--text-primary);
-        border: 1px solid var(--border);
-      }
-      .btn-secondary:hover {
-        background: var(--bg-card-hover);
-        border-color: var(--border-accent);
-        color: var(--accent-glow);
-        transform: translateY(-2px);
-      }
-
-      .btn-ghost {
-        background: transparent;
-        color: var(--text-secondary);
-        border: 1px solid var(--border);
-      }
-      .btn-ghost:hover {
-        color: var(--text-primary);
-        border-color: var(--border-accent);
-        background: var(--bg-card);
-      }
-
-      /* Stats strip */
-      .stats-strip {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        padding: 1.5rem 2rem;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .stat-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.25rem;
-        text-align: center;
-      }
-
-      .stat-num {
-        font-size: 1.75rem;
-        font-weight: 800;
-        letter-spacing: -0.04em;
-        line-height: 1;
-      }
-
-      .stat-label {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        font-weight: 500;
-        letter-spacing: 0.02em;
+        color: var(--text-subtle);
+        letter-spacing: 0.04em;
         text-transform: uppercase;
+        font-family: 'Geist Mono', monospace;
       }
 
-      .stat-divider {
-        width: 1px;
-        height: 40px;
-        background: var(--border);
-      }
-
-      /* ── SPLIT SECTION ── */
-      .split-section {
-        display: grid;
-        grid-template-columns: 1fr 420px;
-        gap: 2rem;
-        align-items: start;
-        animation: fadeInUp 0.7s 0.15s ease both;
-      }
-
-      /* ── EXPERTISE COLUMN ── */
-      .section-title {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-bottom: 1.25rem;
-      }
-
-      .section-title-line {
-        display: block;
-        width: 2rem;
-        height: 2px;
-        background: linear-gradient(90deg, var(--accent), var(--teal));
-        border-radius: 2px;
-      }
-
-      .expertise-cards {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .expertise-card {
-        display: flex;
-        align-items: flex-start;
-        gap: 1rem;
-        padding: 1.25rem;
-        transition: var(--transition);
-        cursor: default;
-      }
-
-      .expertise-card:hover {
-        transform: translateX(4px);
-        box-shadow: var(--shadow-card);
-      }
-
-      .card-icon {
-        flex-shrink: 0;
-        width: 48px;
-        height: 48px;
-        border-radius: var(--radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        box-shadow: var(--shadow-sm);
-      }
-
-      .card-body h3 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 0.35rem;
-        color: var(--text-primary);
-      }
-
-      .card-body p {
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-        margin-bottom: 0.65rem;
-        line-height: 1.55;
-      }
-
-      .tag-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.4rem;
-      }
-
-      .tag {
-        font-size: 0.72rem;
-        padding: 0.2rem 0.6rem;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        color: var(--text-muted);
-        font-weight: 500;
-      }
-
-      /* ── CHAT COLUMN ── */
-      .chat-col {
-        position: sticky;
-        top: 84px;
-        animation: slideInRight 0.7s 0.2s ease both;
-      }
-
-      .chat-panel {
-        display: flex;
-        flex-direction: column;
-        height: 560px;
-        overflow: hidden;
-        border-color: var(--border-accent);
-        box-shadow: var(--shadow-glow);
-      }
-
-      .chat-header {
-        display: flex;
-        align-items: center;
-        gap: 0.85rem;
-        padding: 1rem 1.25rem;
-        border-bottom: 1px solid var(--border);
-        background: rgba(124,58,237,0.06);
-        flex-shrink: 0;
-      }
-
-      .chat-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--accent), var(--teal));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        flex-shrink: 0;
-        animation: float 3s ease-in-out infinite;
-      }
-
-      .chat-title-block { flex: 1; min-width: 0; }
-
-      .chat-title {
-        font-size: 0.95rem;
-        font-weight: 700;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        color: var(--text-primary);
-      }
-
-      .ai-badge {
-        font-size: 0.65rem;
-        padding: 0.15rem 0.5rem;
-        background: linear-gradient(135deg, var(--accent), var(--teal));
-        border-radius: 999px;
-        color: #fff;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-      }
-
-      .chat-subtitle {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        margin: 0;
-        line-height: 1;
-        margin-top: 0.2rem;
-      }
-
-      .chat-online {
-        display: flex;
-        align-items: center;
-        gap: 0.35rem;
-        font-size: 0.72rem;
-        color: var(--green);
-        font-weight: 500;
-        flex-shrink: 0;
-      }
-
-      .online-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--green);
-        box-shadow: 0 0 6px var(--green);
-        animation: pulse-glow 2s ease-in-out infinite;
-      }
-
-      /* Messages area */
-      .chat-messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1rem 1.25rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.85rem;
-        scroll-behavior: smooth;
-      }
-
-      .msg-row {
-        display: flex;
-        width: 100%;
-      }
-
-      .msg-row.msg-user {
-        justify-content: flex-end;
-      }
-
-      .msg-row.msg-assistant {
-        justify-content: flex-start;
-      }
-
-      .msg-bubble {
-        max-width: 82%;
-        padding: 0.7rem 1rem;
-        border-radius: var(--radius-md);
-        font-size: 0.85rem;
-        line-height: 1.6;
-        white-space: pre-wrap;
-        word-break: break-word;
-      }
-
-      .msg-row.msg-user .msg-bubble {
-        background: linear-gradient(135deg, var(--accent), #6d28d9);
-        color: #fff;
-        border-bottom-right-radius: 4px;
-      }
-
-      .msg-row.msg-assistant .msg-bubble {
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        color: var(--text-secondary);
-        border-bottom-left-radius: 4px;
-      }
-
-      /* Typing indicator */
-      .typing-dots {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        padding: 0.75rem 1rem;
-      }
-
-      .typing-dots span {
+      .dot-live {
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: var(--text-muted);
-        animation: bounce 1.2s ease-in-out infinite;
+        background: #22c55e;
+        box-shadow: 0 0 6px #22c55e;
+        display: inline-block;
+        animation: blink 2s ease-in-out infinite;
+        flex-shrink: 0;
       }
-      .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-      .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+      .dot-live.small { width: 5px; height: 5px; }
 
-      @keyframes bounce {
-        0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
-        40%            { transform: translateY(-6px); opacity: 1; }
+      .hero-title {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        line-height: 1.0;
+        color: var(--text);
+        margin: 0;
       }
 
-      /* Suggested questions */
-      .chat-suggested {
+      .hero-sub {
+        font-size: 1rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+        margin: 0;
+        max-width: 520px;
+      }
+
+      .hero-cta {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.4rem;
-        padding: 0.5rem 1.25rem;
-        border-top: 1px solid var(--border);
-      }
-
-      .suggested-btn {
-        font-size: 0.72rem;
-        padding: 0.3rem 0.75rem;
-        background: var(--accent-soft);
-        border: 1px solid var(--border-accent);
-        border-radius: 999px;
-        color: var(--accent-glow);
-        cursor: pointer;
-        transition: var(--transition);
-        font-family: 'Inter', sans-serif;
-        font-weight: 500;
-      }
-
-      .suggested-btn:hover {
-        background: rgba(124,58,237,0.25);
-        transform: translateY(-1px);
-      }
-
-      /* Input row */
-      .chat-input-row {
-        display: flex;
-        align-items: flex-end;
         gap: 0.5rem;
-        padding: 0.75rem 1rem;
-        border-top: 1px solid var(--border);
-        background: rgba(0,0,0,0.2);
+        align-items: center;
+        margin-top: 0.25rem;
+      }
+
+      /* Stats */
+      .stats-row {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        overflow: hidden;
+        width: fit-content;
+      }
+
+      .stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.15rem;
+        padding: 1rem 2rem;
+      }
+
+      .stat-n {
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        color: var(--text);
+        font-family: 'Geist', sans-serif;
+        line-height: 1;
+      }
+
+      .stat-l {
+        font-size: 0.68rem;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 500;
+        font-family: 'Geist Mono', monospace;
+      }
+
+      .stat-sep {
+        width: 1px;
+        height: 40px;
+        background: var(--border);
         flex-shrink: 0;
       }
 
-      #home-question {
+      /* Divider */
+      .divider {
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* ── SPLIT ── */
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 2.5rem;
+        align-items: start;
+        animation: fadeIn 0.5s 0.1s ease both;
+      }
+
+      /* ── SKILLS ── */
+      .col-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-dim);
+        margin-bottom: 1.25rem;
+        font-family: 'Geist Mono', monospace;
+      }
+
+      .skill-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .skill-item {
+        display: flex;
+        gap: 1.25rem;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid var(--border);
+        transition: var(--transition);
+        cursor: default;
+      }
+      .skill-item:first-child { padding-top: 0; }
+      .skill-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+      .skill-item:hover .skill-num { color: var(--text-muted); }
+
+      .skill-num {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        font-weight: 500;
+        font-family: 'Geist Mono', monospace;
+        padding-top: 0.25rem;
+        flex-shrink: 0;
+        width: 24px;
+        transition: var(--transition);
+      }
+
+      .skill-body h3 {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+        color: var(--text);
+      }
+
+      .skill-body p {
+        font-size: 0.83rem;
+        color: var(--text-subtle);
+        margin-bottom: 0.75rem;
+        line-height: 1.6;
+      }
+
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+
+      /* ── CHAT ── */
+      .chat-col {
+        position: sticky;
+        top: 72px;
+        animation: slideRight 0.5s 0.15s ease both;
+      }
+
+      .chat-card {
+        display: flex;
+        flex-direction: column;
+        height: 540px;
+        overflow: hidden;
+      }
+
+      /* Chat header */
+      .chat-hd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.1rem;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+
+      .chat-hd-left {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .chat-avatar {
+        width: 34px;
+        height: 34px;
+        background: var(--text);
+        color: var(--bg);
+        border-radius: var(--r-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 800;
+        font-family: 'Geist Mono', monospace;
+        flex-shrink: 0;
+      }
+
+      .chat-name {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        line-height: 1;
+        padding-bottom: 0.2rem;
+      }
+
+      .chat-status {
+        font-size: 0.7rem;
+        color: var(--text-dim);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        line-height: 1;
+      }
+
+      .icon-sm {
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      /* Messages */
+      .chat-msgs {
         flex: 1;
-        padding: 0.6rem 0.85rem;
-        border-radius: var(--radius-sm);
-        font-size: 0.85rem;
-        min-height: 38px;
-        max-height: 120px;
-        resize: none;
+        overflow-y: auto;
+        padding: 1rem 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .msg {
+        display: flex;
+        flex-direction: column;
+        max-width: 86%;
+      }
+
+      .msg p {
+        margin: 0;
+        font-size: 0.83rem;
+        line-height: 1.6;
+        padding: 0.6rem 0.9rem;
+        border-radius: var(--r-md);
+      }
+
+      .msg-ai {
+        align-self: flex-start;
+      }
+      .msg-ai p {
+        background: var(--bg-muted);
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        border-bottom-left-radius: var(--r-xs);
+      }
+
+      .msg-user {
+        align-self: flex-end;
+      }
+      .msg-user p {
+        background: var(--text);
+        color: var(--bg);
+        border-bottom-right-radius: var(--r-xs);
+      }
+
+      /* Typing indicator */
+      .typing p {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 0.7rem 0.9rem;
+      }
+      .typing-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--text-dim);
+        animation: typing-bounce 1.2s ease-in-out infinite;
+      }
+      .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+      .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+      @keyframes typing-bounce {
+        0%, 80%, 100% { transform: scale(1); opacity: 0.5; }
+        40%            { transform: scale(1.3); opacity: 1; }
+      }
+
+      /* Quick prompts */
+      .quick-prompts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        padding: 0.6rem 1.1rem;
+        border-top: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+
+      .qp-btn {
+        font-size: 0.72rem;
+        padding: 0.3rem 0.65rem;
+        background: var(--bg-muted);
+        border: 1px solid var(--border);
+        border-radius: var(--r-xs);
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: var(--transition);
+        font-family: 'Geist', sans-serif;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .qp-btn:hover {
+        border-color: var(--border-soft);
+        color: var(--text);
+        background: var(--bg-elevated);
+      }
+
+      /* Input */
+      .chat-input-area {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.5rem;
+        padding: 0.75rem 1.1rem;
+        border-top: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+
+      #chat-input {
+        flex: 1;
+        padding: 0.55rem 0.75rem;
+        border-radius: var(--r-sm);
+        font-size: 0.83rem;
+        min-height: 36px;
+        max-height: 110px;
         line-height: 1.5;
+        resize: none;
         overflow-y: auto;
       }
 
       .send-btn {
-        width: 38px;
-        height: 38px;
-        border-radius: var(--radius-sm);
+        width: 34px;
+        height: 34px;
+        padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        padding: 0;
-        box-shadow: 0 4px 12px rgba(124,58,237,0.4);
+        border-radius: var(--r-sm);
       }
+      .send-btn:hover { transform: translateY(-1px); }
+      .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
-      .send-btn:hover {
-        transform: scale(1.08);
-        box-shadow: 0 6px 18px rgba(124,58,237,0.6);
-      }
-
-      .send-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none;
-      }
-
-      .chat-disclaimer {
+      .chat-footer-note {
         text-align: center;
-        font-size: 0.68rem;
-        color: var(--text-muted);
+        font-size: 0.65rem;
+        color: var(--text-dim);
         padding: 0.4rem 1rem;
         margin: 0;
+        font-family: 'Geist Mono', monospace;
         flex-shrink: 0;
+        border-top: 1px solid var(--border);
       }
 
       /* ── RESPONSIVE ── */
-      @media (max-width: 900px) {
-        .split-section {
-          grid-template-columns: 1fr;
-        }
-        .chat-col {
-          position: static;
-        }
-        .chat-panel {
-          height: 480px;
-        }
+      @media (max-width: 880px) {
+        .split { grid-template-columns: 1fr; }
+        .chat-col { position: static; }
+        .chat-card { height: 460px; }
       }
 
-      @media (max-width: 640px) {
-        .home-main { padding: 2rem 1rem 3rem; gap: 3rem; }
-        .hero-title { font-size: 2.25rem; }
-        .stats-strip { padding: 1rem; gap: 0.5rem; }
-        .stat-divider { display: none; }
-        .br-hide { display: none; }
-        .hero-actions { gap: 0.5rem; }
+      @media (max-width: 600px) {
+        .home { padding: 2rem 1rem 4rem; gap: 2.5rem; }
+        .hero-title { font-size: 2.5rem; }
+        .stats-row { width: 100%; justify-content: space-between; }
+        .stat { padding: 0.85rem 1rem; }
+        .stat-sep { height: 30px; }
       }
     </style>
 
     <script type="module">
-      const askBtn    = document.getElementById('home-ask-btn');
-      const textarea  = document.getElementById('home-question');
-      const msgBox    = document.getElementById('home-messages');
-      const suggested = document.querySelectorAll('.suggested-btn');
-      const suggestedRow = document.getElementById('suggested-questions');
+      const sendBtn      = document.getElementById('chat-send');
+      const clearBtn     = document.getElementById('chat-clear-btn');
+      const input        = document.getElementById('chat-input');
+      const msgsEl       = document.getElementById('chat-msgs');
+      const quickPrompts = document.getElementById('quick-prompts');
 
-      let history = [];
+      let history   = [];
       let isLoading = false;
 
-      /* Auto-grow textarea */
-      textarea.addEventListener('input', () => {
-        textarea.style.height = 'auto';
-        textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+      /* Auto-grow */
+      input.addEventListener('input', () => {
+        input.style.height = 'auto';
+        input.style.height = Math.min(input.scrollHeight, 110) + 'px';
       });
 
-      /* Send on Enter (shift+enter = newline) */
-      textarea.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          sendMessage();
-        }
+      /* Enter to send */
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
       });
 
-      askBtn.addEventListener('click', sendMessage);
+      sendBtn.addEventListener('click', send);
+      clearBtn.addEventListener('click', () => {
+        history = [];
+        msgsEl.innerHTML = `<div class="msg msg-ai"><p>Conversation cleared. Ask me anything about Vishnu's background!</p></div>`;
+        quickPrompts.style.display = 'flex';
+      });
 
-      suggested.forEach(btn => {
+      document.querySelectorAll('.qp-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          textarea.value = btn.dataset.q;
-          suggestedRow.style.display = 'none';
-          sendMessage();
+          input.value = btn.dataset.q;
+          quickPrompts.style.display = 'none';
+          send();
         });
       });
 
-      function appendBubble(role, text) {
-        const row = document.createElement('div');
-        row.className = `msg-row msg-${role}`;
-        const bubble = document.createElement('div');
-        bubble.className = 'msg-bubble';
-        bubble.textContent = text;
-        row.appendChild(bubble);
-        msgBox.appendChild(row);
-        msgBox.scrollTop = msgBox.scrollHeight;
-        return bubble;
+      function addMsg(role, text) {
+        const wrap = document.createElement('div');
+        wrap.className = `msg msg-${role === 'user' ? 'user' : 'ai'}`;
+        const p = document.createElement('p');
+        p.textContent = text;
+        wrap.appendChild(p);
+        msgsEl.appendChild(wrap);
+        msgsEl.scrollTop = msgsEl.scrollHeight;
+        return p;
       }
 
       function showTyping() {
-        const row = document.createElement('div');
-        row.className = 'msg-row msg-assistant';
-        row.id = 'typing-indicator';
-        row.innerHTML = '<div class="msg-bubble typing-dots"><span></span><span></span><span></span></div>';
-        msgBox.appendChild(row);
-        msgBox.scrollTop = msgBox.scrollHeight;
+        const wrap = document.createElement('div');
+        wrap.className = 'msg msg-ai typing';
+        wrap.id = 'typing-row';
+        wrap.innerHTML = '<p><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></p>';
+        msgsEl.appendChild(wrap);
+        msgsEl.scrollTop = msgsEl.scrollHeight;
       }
+      function hideTyping() { document.getElementById('typing-row')?.remove(); }
 
-      function removeTyping() {
-        document.getElementById('typing-indicator')?.remove();
-      }
-
-      function escapeHtml(s) {
-        return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      }
-
-      async function sendMessage() {
+      async function send() {
         if (isLoading) return;
-        const question = textarea.value.trim();
+        const question = input.value.trim();
         if (!question) return;
 
         isLoading = true;
-        askBtn.disabled = true;
-        textarea.value = '';
-        textarea.style.height = 'auto';
-        suggestedRow.style.display = 'none';
+        sendBtn.disabled = true;
+        input.value = '';
+        input.style.height = 'auto';
+        quickPrompts.style.display = 'none';
 
-        appendBubble('user', question);
+        addMsg('user', question);
         history.push({ role: 'user', text: question });
-
         showTyping();
 
         try {
           const res = await fetch('/api/gemini', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question, history: history.slice(0, -1), stream: true }),
+            body: JSON.stringify({ question, history: history.slice(0,-1), stream: true }),
           });
 
-          removeTyping();
+          hideTyping();
 
           if (!res.ok) {
-            const err = await res.json().catch(() => ({ error: res.statusText }));
-            appendBubble('assistant', '⚠️ ' + (err.error || 'Request failed'));
+            const err = await res.json().catch(() => ({}));
+            addMsg('ai', '⚠ ' + (err.error || 'Request failed.'));
             return;
           }
 
-          const assistantBubble = appendBubble('assistant', '');
-          let fullText = '';
+          const bubble = addMsg('ai', '');
+          let full = '';
 
           const reader = res.body.getReader();
-          const decoder = new TextDecoder();
+          const dec    = new TextDecoder();
           let buf = '';
 
           while (true) {
             const { done, value } = await reader.read();
             if (done) break;
-            buf += decoder.decode(value, { stream: true });
+            buf += dec.decode(value, { stream: true });
             const parts = buf.split('\n\n');
             buf = parts.pop();
             for (const part of parts) {
-              if (!part) continue;
               for (const line of part.split('\n')) {
                 if (line.startsWith('data: ')) {
                   try {
-                    const payload = JSON.parse(line.slice(6));
-                    if (payload.type === 'chunk') {
-                      fullText += payload.text || '';
-                      assistantBubble.textContent = fullText;
-                      msgBox.scrollTop = msgBox.scrollHeight;
+                    const p = JSON.parse(line.slice(6));
+                    if (p.type === 'chunk') {
+                      full += p.text || '';
+                      bubble.textContent = full;
+                      msgsEl.scrollTop = msgsEl.scrollHeight;
                     }
                   } catch {}
                 }
@@ -852,25 +734,24 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             }
           }
 
-          if (!fullText) {
-            const fallback = await fetch('/api/gemini', {
+          if (!full) {
+            const fb = await fetch('/api/gemini', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ question, history: history.slice(0, -1), stream: false }),
+              body: JSON.stringify({ question, history: history.slice(0,-1), stream: false }),
             });
-            const data = await fallback.json().catch(() => ({ text: '' }));
-            fullText = data.text || 'No response received.';
-            assistantBubble.textContent = fullText;
+            const data = await fb.json().catch(() => ({}));
+            full = data.text || 'No response.';
+            bubble.textContent = full;
           }
 
-          history.push({ role: 'assistant', text: fullText });
-
-        } catch (err) {
-          removeTyping();
-          appendBubble('assistant', '⚠️ Connection error. Please try again.');
+          history.push({ role: 'assistant', text: full });
+        } catch (e) {
+          hideTyping();
+          addMsg('ai', '⚠ Connection error. Please try again.');
         } finally {
           isLoading = false;
-          askBtn.disabled = false;
+          sendBtn.disabled = false;
         }
       }
     </script>

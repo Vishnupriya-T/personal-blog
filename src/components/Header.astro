@@ -3,15 +3,12 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header id="main-header">
+<header id="site-header">
   <div class="header-inner">
+
     <a href="/" class="logo" aria-label="Home">
-      <div class="logo-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <span class="logo-text">{SITE_TITLE}</span>
+      <div class="logo-mark">VP</div>
+      <span class="logo-name">{SITE_TITLE}</span>
     </a>
 
     <nav class="nav-links" aria-label="Main navigation">
@@ -20,26 +17,25 @@ import HeaderLink from './HeaderLink.astro';
       <HeaderLink href="/about">About</HeaderLink>
     </nav>
 
-    <div class="header-right">
-      <a href="https://www.linkedin.com/in/vishnu-priya-t/" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-          <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8.99h5V24H0V8.99zm7.5 0h4.78v2.09h.07c.67-1.27 2.3-2.61 4.74-2.61 5.07 0 6 3.34 6 7.67V24h-5V15.63c0-2.01-.04-4.6-2.8-4.6-2.8 0-3.23 2.18-3.23 4.44V24h-5V8.99z"/>
-        </svg>
-      </a>
-      <a href="https://github.com/Vishnupriya-T" target="_blank" rel="noopener" class="social-btn" aria-label="GitHub">
-        <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor">
+    <div class="header-actions">
+      <a href="https://github.com/Vishnupriya-T" target="_blank" rel="noopener" class="btn btn-ghost icon-btn" aria-label="GitHub">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
         </svg>
       </a>
-
-      <!-- Mobile menu toggle -->
-      <button class="mobile-toggle" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+      <a href="https://www.linkedin.com/in/vishnu-priya-t/" target="_blank" rel="noopener" class="btn btn-ghost icon-btn" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8.99h5V24H0V8.99zm7.5 0h4.78v2.09h.07c.67-1.27 2.3-2.61 4.74-2.61 5.07 0 6 3.34 6 7.67V24h-5V15.63c0-2.01-.04-4.6-2.8-4.6-2.8 0-3.23 2.18-3.23 4.44V24h-5V8.99z"/>
+        </svg>
+      </a>
+      <button class="mobile-toggle btn btn-ghost" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <svg id="icon-menu" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg id="icon-close" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
   </div>
 
-  <!-- Mobile nav -->
+  <!-- Mobile nav drawer -->
   <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
     <HeaderLink href="/">Home</HeaderLink>
     <HeaderLink href="/blog">Blog</HeaderLink>
@@ -52,18 +48,17 @@ import HeaderLink from './HeaderLink.astro';
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(8, 11, 18, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(9, 9, 11, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
-    transition: var(--transition);
   }
 
   .header-inner {
-    max-width: 1100px;
+    max-width: 1080px;
     margin: 0 auto;
     padding: 0 1.5rem;
-    height: 64px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -78,31 +73,30 @@ import HeaderLink from './HeaderLink.astro';
     text-decoration: none;
     flex-shrink: 0;
   }
-
-  .logo-icon {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, var(--accent), var(--teal));
-    border-radius: 10px;
+  .logo-mark {
+    width: 30px;
+    height: 30px;
+    background: var(--text);
+    color: var(--bg);
+    border-radius: var(--r-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    font-family: 'Geist Mono', monospace;
     transition: var(--transition);
-    box-shadow: 0 0 14px rgba(124,58,237,0.35);
   }
-
-  .logo:hover .logo-icon {
-    transform: rotate(-5deg) scale(1.05);
-    box-shadow: 0 0 20px rgba(124,58,237,0.55);
+  .logo:hover .logo-mark {
+    background: rgba(250,250,250,0.85);
   }
-
-  .logo-text {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text-primary);
+  .logo-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
     letter-spacing: -0.01em;
-    max-width: 160px;
+    max-width: 180px;
     line-height: 1.2;
   }
 
@@ -110,89 +104,64 @@ import HeaderLink from './HeaderLink.astro';
   .nav-links {
     display: flex;
     align-items: center;
+    gap: 0.15rem;
+  }
+
+  /* Actions */
+  .header-actions {
+    display: flex;
+    align-items: center;
     gap: 0.25rem;
   }
 
-  /* Header right */
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .social-btn {
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: var(--transition);
-  }
-
-  .social-btn:hover {
-    background: var(--accent-soft);
-    border-color: var(--border-accent);
-    color: var(--accent-glow);
-    transform: translateY(-2px);
+    border-radius: var(--r-sm);
   }
 
   /* Mobile toggle */
   .mobile-toggle {
     display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    width: 36px;
-    height: 36px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
+    width: 32px;
+    height: 32px;
     padding: 0;
-  }
-
-  .mobile-toggle span {
-    display: block;
-    width: 18px;
-    height: 2px;
-    background: var(--text-secondary);
-    border-radius: 2px;
-    transition: var(--transition);
+    align-items: center;
+    justify-content: center;
   }
 
   /* Mobile nav */
   .mobile-nav {
     display: none;
     flex-direction: column;
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1.5rem 1rem;
     border-top: 1px solid var(--border);
-    gap: 0.25rem;
-    background: rgba(8,11,18,0.95);
+    gap: 0.15rem;
+    background: var(--bg-subtle);
   }
+  .mobile-nav.open { display: flex; }
 
-  .mobile-nav.open {
-    display: flex;
-  }
-
-  @media (max-width: 640px) {
+  @media (max-width: 600px) {
     .nav-links { display: none; }
     .mobile-toggle { display: flex; }
-    .logo-text { font-size: 0.85rem; max-width: 120px; }
+    .logo-name { display: none; }
   }
 </style>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const nav = document.getElementById('mobile-nav');
+  const btn   = document.getElementById('mobile-menu-btn');
+  const nav   = document.getElementById('mobile-nav');
+  const iconM = document.getElementById('icon-menu');
+  const iconX = document.getElementById('icon-close');
   btn?.addEventListener('click', () => {
     const open = nav?.classList.toggle('open');
     btn.setAttribute('aria-expanded', String(open));
     nav?.setAttribute('aria-hidden', String(!open));
+    if (iconM) iconM.style.display = open ? 'none' : 'block';
+    if (iconX) iconX.style.display = open ? 'block' : 'none';
   });
 </script>
