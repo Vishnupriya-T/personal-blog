@@ -15,67 +15,116 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
     <main class="home">
 
-      <!-- ═══ HERO ═══ -->
-      <section class="hero" aria-label="Introduction">
+      <!-- ═══ HERO / TOP SECTION ═══ -->
+      <section class="hero-grid" aria-label="Introduction and AI Chat">
+        <div class="hero-main">
+          <div class="hero-top">
+            <div class="hero-eyebrow">
+              <span class="dot-live"></span>
+              <span>Open to opportunities</span>
+            </div>
 
-        <div class="hero-top">
-          <div class="hero-eyebrow">
-            <span class="dot-live"></span>
-            <span>Open to opportunities</span>
+            <h1 class="hero-title">
+              Senior DevOps<br/>Engineer.
+            </h1>
+
+            <p class="hero-sub">
+              Building scalable Kubernetes platforms, cloud infrastructure, and
+              AI/MLOps-ready systems for enterprise microservices at Freddie Mac.
+            </p>
+
+            <div class="hero-cta">
+              <a href="/about" class="btn btn-primary" id="btn-about">About me</a>
+              <a href="/blog" class="btn btn-outline" id="btn-blog">Read blog</a>
+              <a href="https://www.linkedin.com/in/vishnu-priya-t/" target="_blank" rel="noopener" class="btn btn-ghost" id="btn-linkedin">
+                LinkedIn ↗
+              </a>
+            </div>
           </div>
 
-          <h1 class="hero-title">
-            Senior DevOps<br/>Engineer.
-          </h1>
-
-          <p class="hero-sub">
-            Building scalable Kubernetes platforms, cloud infrastructure, and
-            AI/MLOps-ready systems for enterprise microservices at Freddie Mac.
-          </p>
-
-          <div class="hero-cta">
-            <a href="/about" class="btn btn-primary" id="btn-about">About me</a>
-            <a href="/blog" class="btn btn-outline" id="btn-blog">Read blog</a>
-            <a href="https://www.linkedin.com/in/vishnu-priya-t/" target="_blank" rel="noopener" class="btn btn-ghost" id="btn-linkedin">
-              LinkedIn ↗
-            </a>
+          <!-- Stats row -->
+          <div class="stats-row">
+            <div class="stat">
+              <span class="stat-n">5+</span>
+              <span class="stat-l">Years</span>
+            </div>
+            <div class="stat-sep"></div>
+            <div class="stat">
+              <span class="stat-n">1000+</span>
+              <span class="stat-l">Microservices</span>
+            </div>
+            <div class="stat-sep"></div>
+            <div class="stat">
+              <span class="stat-n">CKA</span>
+              <span class="stat-l">Certified</span>
+            </div>
+            <div class="stat-sep"></div>
+            <div class="stat">
+              <span class="stat-n">MS</span>
+              <span class="stat-l">Data Science Graduate</span>
+            </div>
           </div>
         </div>
 
-        <!-- Stats row -->
-        <div class="stats-row">
-          <div class="stat">
-            <span class="stat-n">5+</span>
-            <span class="stat-l">Years</span>
+        <!-- RIGHT: Chat panel -->
+        <aside class="chat-col" aria-label="AI chat assistant">
+          <div class="chat-card card" id="chat-widget">
+
+            <div class="chat-hd">
+              <div class="chat-hd-left">
+                <div class="chat-avatar">VP</div>
+                <div>
+                  <p class="chat-name">Ask Vishnu <span class="badge badge-white">AI</span></p>
+                  <p class="chat-status"><span class="dot-live small"></span> Online</p>
+                </div>
+              </div>
+              <button class="btn btn-ghost icon-sm" id="chat-clear-btn" title="Clear conversation" aria-label="Clear chat">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+              </button>
+            </div>
+
+            <div class="chat-msgs" id="chat-msgs" aria-live="polite" aria-label="Chat messages">
+              <div class="msg msg-ai">
+                <p>Hi! I'm Vishnu's AI assistant. Ask me about my background, projects, or skills — I'll answer based on what I know about Vishnu.</p>
+              </div>
+            </div>
+
+            <!-- Quick prompts -->
+            <div class="quick-prompts" id="quick-prompts">
+              <button class="qp-btn" data-q="What are your top DevOps skills?">⚙ DevOps skills</button>
+              <button class="qp-btn" data-q="Tell me about your work at Freddie Mac">🏢 Freddie Mac</button>
+              <button class="qp-btn" data-q="What AI projects have you built?">🤖 AI projects</button>
+              <button class="qp-btn" data-q="What certifications do you have?">🎓 Certs</button>
+            </div>
+
+            <div class="chat-input-area">
+              <textarea
+                id="chat-input"
+                rows="1"
+                placeholder="Ask about experience, projects, skills…"
+                aria-label="Type your question"
+              ></textarea>
+              <button class="send-btn btn-primary btn" id="chat-send" aria-label="Send">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </button>
+            </div>
+
+            <p class="chat-footer-note">Powered by Gemini · Multi-turn conversation</p>
           </div>
-          <div class="stat-sep"></div>
-          <div class="stat">
-            <span class="stat-n">1000+</span>
-            <span class="stat-l">Microservices</span>
-          </div>
-          <div class="stat-sep"></div>
-          <div class="stat">
-            <span class="stat-n">CKA</span>
-            <span class="stat-l">Certified</span>
-          </div>
-          <div class="stat-sep"></div>
-          <div class="stat">
-            <span class="stat-n">MS</span>
-            <span class="stat-l">Data Science Graduate</span>
-          </div>
-        </div>
+        </aside>
       </section>
 
       <div class="divider"></div>
 
-      <!-- ═══ SPLIT: SKILLS + CHAT ═══ -->
-      <section class="split" aria-label="Skills and chat">
-
-        <!-- LEFT: skill list -->
+      <!-- ═══ EXPERTISE ═══ -->
+      <section class="expertise-sec" aria-label="Professional Expertise">
         <div class="skills-col">
           <p class="col-label">Expertise</p>
 
-          <ul class="skill-list" role="list">
+          <ul class="skills-grid" role="list">
             <li class="skill-item" id="skill-platform">
               <div class="skill-num">01</div>
               <div class="skill-body">
@@ -130,56 +179,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             </li>
           </ul>
         </div>
-
-        <!-- RIGHT: Chat panel -->
-        <aside class="chat-col" aria-label="AI chat assistant">
-          <div class="chat-card card" id="chat-widget">
-
-            <div class="chat-hd">
-              <div class="chat-hd-left">
-                <div class="chat-avatar">VP</div>
-                <div>
-                  <p class="chat-name">Ask Vishnu <span class="badge badge-white">AI</span></p>
-                  <p class="chat-status"><span class="dot-live small"></span> Online</p>
-                </div>
-              </div>
-              <button class="btn btn-ghost icon-sm" id="chat-clear-btn" title="Clear conversation" aria-label="Clear chat">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
-              </button>
-            </div>
-
-            <div class="chat-msgs" id="chat-msgs" aria-live="polite" aria-label="Chat messages">
-              <div class="msg msg-ai">
-                <p>Hi! I'm Vishnu's AI assistant. Ask me about my background, projects, or skills — I'll answer based on what I know about Vishnu.</p>
-              </div>
-            </div>
-
-            <!-- Quick prompts -->
-            <div class="quick-prompts" id="quick-prompts">
-              <button class="qp-btn" data-q="What are your top DevOps skills?">⚙ DevOps skills</button>
-              <button class="qp-btn" data-q="Tell me about your work at Freddie Mac">🏢 Freddie Mac</button>
-              <button class="qp-btn" data-q="What AI projects have you built?">🤖 AI projects</button>
-              <button class="qp-btn" data-q="What certifications do you have?">🎓 Certs</button>
-            </div>
-
-            <div class="chat-input-area">
-              <textarea
-                id="chat-input"
-                rows="1"
-                placeholder="Ask about experience, projects, skills…"
-                aria-label="Type your question"
-              ></textarea>
-              <button class="send-btn btn-primary btn" id="chat-send" aria-label="Send">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="22" y1="2" x2="11" y2="13"/>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-              </button>
-            </div>
-
-            <p class="chat-footer-note">Powered by Gemini · Multi-turn conversation</p>
-          </div>
-        </aside>
       </section>
 
     </main>
@@ -198,11 +197,18 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       }
 
       /* ── HERO ── */
-      .hero {
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 3rem;
+        align-items: start;
+        animation: fadeIn 0.5s ease both;
+      }
+
+      .hero-main {
         display: flex;
         flex-direction: column;
         gap: 2.5rem;
-        animation: fadeIn 0.5s ease both;
       }
 
       .hero-top {
@@ -312,15 +318,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         background: var(--border);
       }
 
-      /* ── SPLIT ── */
-      .split {
-        display: grid;
-        grid-template-columns: 1fr 380px;
-        gap: 2.5rem;
-        align-items: start;
-        animation: fadeIn 0.5s 0.1s ease both;
-      }
-
       /* ── SKILLS ── */
       .col-label {
         font-size: 0.72rem;
@@ -332,13 +329,13 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         font-family: 'Geist Mono', monospace;
       }
 
-      .skill-list {
+      .skills-grid {
         list-style: none;
         padding: 0;
         margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0 2.5rem;
       }
 
       .skill-item {
@@ -349,8 +346,31 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         transition: var(--transition);
         cursor: default;
       }
-      .skill-item:first-child { padding-top: 0; }
-      .skill-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+      @media (min-width: 769px) {
+        .skill-item:nth-child(1),
+        .skill-item:nth-child(2) {
+          padding-top: 0;
+        }
+        .skill-item:nth-last-child(-n+2) {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .skills-grid {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+        .skill-item:first-child {
+          padding-top: 0;
+        }
+        .skill-item:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+        }
+      }
 
       .skill-item:hover .skill-num { color: var(--text-muted); }
 
@@ -652,7 +672,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
       /* ── RESPONSIVE ── */
       @media (max-width: 880px) {
-        .split { grid-template-columns: 1fr; }
+        .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
         .chat-col { position: static; }
         .chat-card { height: 460px; }
       }
