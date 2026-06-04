@@ -2,7 +2,7 @@
 import Layout from '../layouts/BlogPost.astro';
 ---
 
-<Layout title="Ask Vishnu — AI Assistant" description="Ask questions about my background and experience.">
+<Layout title="Ask Vishnu — AI Assistant" description="Ask questions about my background and experience." pubDate={new Date()}>
   <section style="max-width:780px;margin:0 auto;padding:1rem;">
     <h1>Ask Vishnu (AI Assistant)</h1>
     <p>Ask a question about my background, projects, or skills. This hits the server-side Gemini endpoint.</p>
