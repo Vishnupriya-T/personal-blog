@@ -13,48 +13,82 @@ Key facts:
 Answer questions about Vishnu's background, skills, experience and projects in a concise, professional, friendly tone.
 If asked something unrelated to Vishnu, politely redirect to his professional background.`;
 
-const FUN_FALLBACKS = [
-  "I can't reach my AI backend right now. Try again in a moment! Meanwhile, feel free to connect with Vishnu on LinkedIn.",
-  "No API key configured yet — but Vishnu has 5+ years of DevOps experience with Kubernetes, AWS, and CI/CD. Ask me again soon!",
-  "AI backend offline. Quick fact: Vishnu is a Certified Kubernetes Administrator with a 4.0 GPA MS in Data Science!",
+const MODEL = 'gemini-2.5-flash-lite-preview-06-17';
+
+const FALLBACK_MESSAGES = [
+  "I can't reach my AI backend right now. Meanwhile — Vishnu has 5+ years of DevOps experience with Kubernetes, AWS and CI/CD. Feel free to explore the blog or reach out on LinkedIn!",
+  "No API key configured. Quick facts: Vishnu is a Certified Kubernetes Administrator with a 4.0 GPA MS in Data Science from UMBC!",
 ];
 
+function jsonResponse(body, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+function friendlyError(err) {
+  const msg = String(err);
+  const raw = msg.includes('{') ? msg : '';
+
+  // 429 — quota / rate limit
+  if (msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED') || msg.includes('quota')) {
+    return {
+      code: 429,
+      userMessage: "⏳ I've hit my request limit for now. Please try again in a minute, or connect with Vishnu directly on LinkedIn!",
+    };
+  }
+  // 401 / 403 — bad key
+  if (msg.includes('401') || msg.includes('403') || msg.includes('API_KEY')) {
+    return {
+      code: 403,
+      userMessage: '🔑 AI backend not configured. Please check back later!',
+    };
+  }
+  // 503 / model overloaded
+  if (msg.includes('503') || msg.includes('overloaded') || msg.includes('UNAVAILABLE')) {
+    return {
+      code: 503,
+      userMessage: '🔄 The AI model is temporarily overloaded. Try again in a few seconds!',
+    };
+  }
+  // Generic
+  return {
+    code: 500,
+    userMessage: '⚠️ Something went wrong. Please try again shortly.',
+  };
+}
+
 export async function POST({ request }) {
-  const body = await request.json().catch(() => ({}));
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonResponse({ error: 'Invalid JSON body' }, 400);
+  }
+
   const question = (body?.question || '').trim();
   const history  = Array.isArray(body?.history) ? body.history : [];
   const stream   = !!body?.stream;
 
-  if (!question) {
-    return new Response(JSON.stringify({ error: 'Question is required' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-  if (question.length > 4000) {
-    return new Response(JSON.stringify({ error: 'Question too long (max 4000 chars)' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
+  if (!question) return jsonResponse({ error: 'Question is required' }, 400);
+  if (question.length > 4000) return jsonResponse({ error: 'Question too long (max 4000 chars)' }, 400);
 
-  const apiKey = process.env.GENAI_API_KEY
-    || process.env.GEMINI_API_KEY
-    || process.env.VERCEL_GEMINI_API_KEY;
+  const apiKey =
+    process.env.GENAI_API_KEY ||
+    process.env.GEMINI_API_KEY ||
+    process.env.VERCEL_GEMINI_API_KEY;
 
   if (!apiKey) {
-    const text = FUN_FALLBACKS[Math.floor(Math.random() * FUN_FALLBACKS.length)];
-    return new Response(JSON.stringify({ text, fallback: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const text = FALLBACK_MESSAGES[Math.floor(Math.random() * FALLBACK_MESSAGES.length)];
+    return jsonResponse({ text, fallback: true });
   }
 
   try {
     const { GoogleGenAI } = await import('@google/genai');
     const ai = new GoogleGenAI({ apiKey });
 
-    // Build conversational prompt with system context
+    // Build prompt with system context + history
     let prompt = SYSTEM_CONTEXT + '\n\n';
     for (const msg of history) {
       if (msg.text) {
@@ -64,10 +98,16 @@ export async function POST({ request }) {
     prompt += `User: ${question}\nAssistant:`;
 
     if (stream) {
-      const responseStream = await ai.models.generateContentStream({
-        model: 'gemini-2.0-flash',
-        contents: prompt,
-      });
+      let responseStream;
+      try {
+        responseStream = await ai.models.generateContentStream({
+          model: MODEL,
+          contents: prompt,
+        });
+      } catch (err) {
+        const { code, userMessage } = friendlyError(err);
+        return jsonResponse({ error: userMessage, code }, code);
+      }
 
       const encoder = new TextEncoder();
       const readable = new ReadableStream({
@@ -80,7 +120,8 @@ export async function POST({ request }) {
             controller.enqueue(encoder.encode(`event: done\ndata: {}\n\n`));
             controller.close();
           } catch (err) {
-            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'error', error: String(err) })}\n\n`));
+            const { userMessage } = friendlyError(err);
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'error', error: userMessage })}\n\n`));
             controller.close();
           }
         },
@@ -96,29 +137,33 @@ export async function POST({ request }) {
     }
 
     // Non-streaming
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
-      contents: prompt,
-    });
-    const text = response?.candidates?.[0]?.content?.parts?.[0]?.text
-      || response?.text
-      || '';
+    let response;
+    try {
+      response = await ai.models.generateContent({
+        model: MODEL,
+        contents: prompt,
+      });
+    } catch (err) {
+      const { code, userMessage } = friendlyError(err);
+      return jsonResponse({ error: userMessage, code }, code);
+    }
 
-    return new Response(JSON.stringify({ text, fallback: false }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const text =
+      response?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      response?.text ||
+      '';
+
+    return jsonResponse({ text, fallback: false });
+
   } catch (err) {
-    return new Response(JSON.stringify({ error: String(err) }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const { code, userMessage } = friendlyError(err);
+    return jsonResponse({ error: userMessage, code }, code);
   }
 }
 
 export async function GET() {
-  return new Response(
-    JSON.stringify({ usage: 'POST { "question": "..." } to this endpoint' }),
-    { headers: { 'Content-Type': 'application/json' } }
-  );
+  return jsonResponse({
+    usage: 'POST { "question": "..." } to this endpoint',
+    model: MODEL,
+  });
 }

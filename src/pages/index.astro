@@ -505,6 +505,19 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         border-bottom-right-radius: var(--r-xs);
       }
 
+      .msg-error {
+        align-self: flex-start;
+        max-width: 92%;
+      }
+      .msg-error p {
+        background: transparent;
+        border: 1px dashed #52525b;
+        color: var(--text-dim);
+        border-radius: var(--r-md);
+        font-size: 0.8rem;
+        font-style: italic;
+      }
+
       /* Typing indicator */
       .typing p {
         display: flex;
@@ -665,6 +678,16 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         return p;
       }
 
+      function addErrorMsg(message) {
+        const wrap = document.createElement('div');
+        wrap.className = 'msg msg-error';
+        const p = document.createElement('p');
+        p.textContent = message;
+        wrap.appendChild(p);
+        msgsEl.appendChild(wrap);
+        msgsEl.scrollTop = msgsEl.scrollHeight;
+      }
+
       function showTyping() {
         const wrap = document.createElement('div');
         wrap.className = 'msg msg-ai typing';
@@ -701,12 +724,15 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
           if (!res.ok) {
             const err = await res.json().catch(() => ({}));
-            addMsg('ai', '⚠ ' + (err.error || 'Request failed.'));
+            // Remove the last user message from history since it failed
+            history.pop();
+            addErrorMsg(err.error || 'Request failed. Please try again.');
             return;
           }
 
           const bubble = addMsg('ai', '');
           let full = '';
+          let streamError = null;
 
           const reader = res.body.getReader();
           const dec    = new TextDecoder();
@@ -727,6 +753,8 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
                       full += p.text || '';
                       bubble.textContent = full;
                       msgsEl.scrollTop = msgsEl.scrollHeight;
+                    } else if (p.type === 'error') {
+                      streamError = p.error;
                     }
                   } catch {}
                 }
@@ -734,21 +762,44 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             }
           }
 
+          // Stream returned an error event
+          if (streamError && !full) {
+            bubble.closest('.msg')?.remove();
+            history.pop();
+            addErrorMsg(streamError);
+            return;
+          }
+
+          // Stream returned nothing — try non-streaming fallback
           if (!full) {
-            const fb = await fetch('/api/gemini', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ question, history: history.slice(0,-1), stream: false }),
-            });
-            const data = await fb.json().catch(() => ({}));
-            full = data.text || 'No response.';
-            bubble.textContent = full;
+            try {
+              const fb = await fetch('/api/gemini', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question, history: history.slice(0,-1), stream: false }),
+              });
+              const data = await fb.json().catch(() => ({}));
+              if (!fb.ok || data.error) {
+                bubble.closest('.msg')?.remove();
+                history.pop();
+                addErrorMsg(data.error || 'No response received.');
+                return;
+              }
+              full = data.text || 'No response.';
+              bubble.textContent = full;
+            } catch {
+              bubble.closest('.msg')?.remove();
+              history.pop();
+              addErrorMsg('Connection error. Please try again.');
+              return;
+            }
           }
 
           history.push({ role: 'assistant', text: full });
         } catch (e) {
           hideTyping();
-          addMsg('ai', '⚠ Connection error. Please try again.');
+          history.pop();
+          addErrorMsg('Connection error. Please check your network and try again.');
         } finally {
           isLoading = false;
           sendBtn.disabled = false;
