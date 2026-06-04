@@ -1,6 +1,8 @@
 export async function post({ request }) {
   const body = await request.json().catch(() => ({}));
-  const question = body?.question || body?.q || '';
+  const question = (body?.question || body?.q || '').trim();
+  const history = Array.isArray(body?.history) ? body.history : [];
+  const stream = !!body?.stream;
 
   const FUN_FALLBACKS = [
     "I can't reach my brain servers right now — but I do know you're amazing! Ask me again in a bit.",
@@ -21,15 +23,49 @@ export async function post({ request }) {
   try {
     const { GoogleGenAI } = await import('@google/genai');
     const ai = new GoogleGenAI({ apiKey });
+    // Input validation
+    if (!question) {
+      return new Response(JSON.stringify({ error: 'Question is required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
+    if (question.length > 4000) {
+      return new Response(JSON.stringify({ error: 'Question too long (max 4000 chars)' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
 
-    // The SDK supports both simple string contents and more structured inputs.
-    const contents = question || "Tell me about Vishnu Priya Thanda's background and experience.";
+    // Build a lightweight conversational prompt from provided history.
+    let prompt = '';
+    if (history.length) {
+      prompt = history.map(h => `${h.role || 'user'}: ${h.text}`).join('\n') + '\n';
+    }
+    prompt += `user: ${question}`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
-      contents,
-    });
+    if (stream) {
+      // Stream response back as Server-Sent Events (SSE)
+      const responseStream = await ai.models.generateContentStream({ model: 'gemini-3.5-flash', contents: prompt });
 
+      const encoder = new TextEncoder();
+      const stream = new ReadableStream({
+        async start(controller) {
+          try {
+            for await (const chunk of responseStream) {
+              const text = chunk?.text || '';
+              const payload = JSON.stringify({ type: 'chunk', text });
+              controller.enqueue(encoder.encode(`data: ${payload}\n\n`));
+            }
+            controller.enqueue(encoder.encode(`event: done\ndata: {}\n\n`));
+            controller.close();
+          } catch (err) {
+            const payload = JSON.stringify({ type: 'error', error: String(err) });
+            controller.enqueue(encoder.encode(`event: error\ndata: ${payload}\n\n`));
+            controller.close();
+          }
+        }
+      });
+
+      return new Response(stream, { headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' } });
+    }
+
+    // Non-streaming fallback: generate whole response
+    const response = await ai.models.generateContent({ model: 'gemini-3.5-flash', contents: prompt });
     const text = response?.candidates?.[0]?.content?.text || response?.text || '';
 
     return new Response(JSON.stringify({ text, fallback: false }), {

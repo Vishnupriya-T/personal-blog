@@ -5,44 +5,118 @@ import Layout from '../layouts/BlogPost.astro';
 <Layout title="Ask Vishnu — AI Assistant" description="Ask questions about my background and experience." pubDate={new Date()}>
   <section style="max-width:780px;margin:0 auto;padding:1rem;">
     <h1>Ask Vishnu (AI Assistant)</h1>
-    <p>Ask a question about my background, projects, or skills. This hits the server-side Gemini endpoint.</p>
+    <p>Ask a question about my background, projects, or skills. This hits the server-side Gemini endpoint and streams the reply.</p>
 
-    <label for="question">Your question</label>
-    <textarea id="question" rows="4" style="width:100%;margin:0.5rem 0;padding:0.5rem;"></textarea>
-    <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;">
-      <button id="ask">Ask</button>
-      <span id="status" style="color:#666;font-size:0.95rem"></span>
+    <div id="chat" style="display:flex;flex-direction:column;gap:1rem">
+      <div id="messages" style="border:1px solid #eee;padding:1rem;border-radius:8px;min-height:180px;overflow:auto;background:#fff"></div>
+
+      <div style="display:flex;gap:0.5rem;align-items:flex-start">
+        <textarea id="question" rows="3" placeholder="Ask about my experience, projects, or skills" style="flex:1;padding:0.5rem;border-radius:6px;border:1px solid #ddd"></textarea>
+        <div style="display:flex;flex-direction:column;gap:0.5rem">
+          <button id="ask">Send</button>
+          <button id="clear">Clear</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <small id="status" style="color:#666"></small>
+        <small style="color:#999">Streaming enabled · multi-turn conversation</small>
+      </div>
     </div>
-
-    <div id="responses" style="white-space:pre-wrap;border:1px solid #eee;padding:1rem;border-radius:6px;min-height:80px"></div>
   </section>
 
   <script type="module">
-    const ask = document.getElementById('ask');
+    const askBtn = document.getElementById('ask');
+    const clearBtn = document.getElementById('clear');
     const q = document.getElementById('question');
-    const resp = document.getElementById('responses');
+    const messagesEl = document.getElementById('messages');
     const status = document.getElementById('status');
 
-    ask.addEventListener('click', async () => {
+    let messages = [];
+
+    function renderMessages() {
+      messagesEl.innerHTML = messages.map(m => {
+        const cls = m.role === 'user' ? 'user' : 'assistant';
+        return `<div style="margin-bottom:0.75rem"><div style="display:inline-block;max-width:78%;padding:0.6rem;border-radius:8px;${cls==='user'? 'background:#e6f0ff;color:#013;float:right;text-align:right;':'background:#f6f6f8;color:#111;float:left;text-align:left;'}">${escapeHtml(m.text)}</div><div style="clear:both"></div></div>`;
+      }).join('');
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    clearBtn.addEventListener('click', () => {
+      messages = [];
+      renderMessages();
+    });
+
+    askBtn.addEventListener('click', async () => {
       const question = q.value.trim();
+      if (!question) { status.textContent = 'Please enter a question.'; return; }
+      if (question.length > 2000) { status.textContent = 'Question too long (max 2000 chars).'; return; }
+
       status.textContent = 'Sending...';
-      resp.textContent = '';
+      // Add user message
+      messages.push({ role: 'user', text: question });
+      renderMessages();
+      q.value = '';
+
+      // Prepare assistant placeholder
+      messages.push({ role: 'assistant', text: '' });
+      renderMessages();
 
       try {
-        const r = await fetch('/api/gemini', {
+        const res = await fetch('/api/gemini', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question }),
+          body: JSON.stringify({ question, history: messages.filter(m=>m.text).slice(0,-1), stream: true }),
         });
-        const data = await r.json();
-        if (data.error) {
-          resp.textContent = 'Error: ' + data.error;
-        } else {
-          resp.textContent = data.text || 'No response';
-          if (data.fallback) resp.style.fontStyle = 'italic'; else resp.style.fontStyle = 'normal';
+
+        if (!res.ok) {
+          const err = await res.json().catch(()=>({ error: res.statusText }));
+          messages[messages.length-1].text = 'Error: ' + (err.error || 'Request failed');
+          renderMessages();
+          return;
         }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const parts = buf.split('\n\n');
+          buf = parts.pop();
+          for (const part of parts) {
+            if (!part) continue;
+            // parse SSE-like `data: {...}` lines
+            const lines = part.split('\n');
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                try {
+                  const payload = JSON.parse(line.slice(6));
+                  if (payload.type === 'chunk') {
+                    messages[messages.length-1].text += payload.text || '';
+                    renderMessages();
+                  }
+                } catch (e) {
+                  // ignore parse errors
+                }
+              }
+            }
+          }
+        }
+
+        // Finalize: if last assistant message still empty, fetch non-stream fallback
+        if (!messages[messages.length-1].text) {
+          const final = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question, history: messages.filter(m=>m.text).slice(0,-1), stream: false }) });
+          const data = await final.json().catch(()=>({ text: '' }));
+          messages[messages.length-1].text = data.text || 'No response';
+        }
+        renderMessages();
       } catch (err) {
-        resp.textContent = 'Request failed: ' + err;
+        messages[messages.length-1].text = 'Request failed: ' + err;
+        renderMessages();
       } finally {
         status.textContent = '';
       }
