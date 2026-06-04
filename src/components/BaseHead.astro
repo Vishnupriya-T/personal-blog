@@ -20,6 +20,18 @@ const { title, description, image = FallbackImage } = Astro.props;
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
+<!-- Anti-FOUC: apply saved theme before first paint -->
+<script is:inline>
+  (function() {
+    try {
+      var saved = localStorage.getItem('theme');
+      // Default is light; only add .dark if explicitly saved as 'dark'
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    } catch(e) {}
+  })();
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />
