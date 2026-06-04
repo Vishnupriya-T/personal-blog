@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/BlogPost.astro';
+---
+
+<Layout title="Ask Vishnu — AI Assistant" description="Ask questions about my background and experience.">
+  <section style="max-width:780px;margin:0 auto;padding:1rem;">
+    <h1>Ask Vishnu (AI Assistant)</h1>
+    <p>Ask a question about my background, projects, or skills. This hits the server-side Gemini endpoint.</p>
+
+    <label for="question">Your question</label>
+    <textarea id="question" rows="4" style="width:100%;margin:0.5rem 0;padding:0.5rem;"></textarea>
+    <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;">
+      <button id="ask">Ask</button>
+      <span id="status" style="color:#666;font-size:0.95rem"></span>
+    </div>
+
+    <div id="responses" style="white-space:pre-wrap;border:1px solid #eee;padding:1rem;border-radius:6px;min-height:80px"></div>
+  </section>
+
+  <script type="module">
+    const ask = document.getElementById('ask');
+    const q = document.getElementById('question');
+    const resp = document.getElementById('responses');
+    const status = document.getElementById('status');
+
+    ask.addEventListener('click', async () => {
+      const question = q.value.trim();
+      status.textContent = 'Sending...';
+      resp.textContent = '';
+
+      try {
+        const r = await fetch('/api/gemini', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question }),
+        });
+        const data = await r.json();
+        if (data.error) {
+          resp.textContent = 'Error: ' + data.error;
+        } else {
+          resp.textContent = data.text || 'No response';
+          if (data.fallback) resp.style.fontStyle = 'italic'; else resp.style.fontStyle = 'normal';
+        }
+      } catch (err) {
+        resp.textContent = 'Request failed: ' + err;
+      } finally {
+        status.textContent = '';
+      }
+    });
+  </script>
+</Layout>

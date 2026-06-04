@@ -75,3 +75,25 @@ Check out [our documentation](https://docs.astro.build) or jump into our [Discor
 ## Credit
 
 This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+
+## Gemini Assistant
+
+This site includes a lightweight Gemini-powered assistant endpoint at `/api/gemini` that can answer questions about the site owner.
+
+- Install the SDK (already added to this project): `npm install @google/genai`
+- Set your Gemini API key in your Vercel project (or as an environment variable) using one of these names:
+	- `GENAI_API_KEY`
+	- `VERCEL_GEMINI_API_KEY`
+	- `GEMINI_API_KEY`
+
+When the key is present the endpoint calls Gemini and returns the model response. If the key is not set, the endpoint returns a playful fallback message so visitors still get a friendly reply.
+
+Example request (curl):
+
+```bash
+curl -X POST https://<your-site>.vercel.app/api/gemini \
+	-H "Content-Type: application/json" \
+	-d '{"question":"Tell me about Vishnu Priya Thanda"}'
+```
+
+There's also a simple chat page at `/gemini` that uses the endpoint from the browser.
