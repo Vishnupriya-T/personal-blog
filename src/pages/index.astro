@@ -469,49 +469,84 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         padding: 1rem 1.1rem;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 1rem;
       }
 
-      .msg {
+      /* Row wraps label + bubble */
+      .msg-row {
         display: flex;
         flex-direction: column;
-        max-width: 86%;
+        gap: 0.25rem;
+        max-width: 90%;
       }
-
-      .msg p {
-        margin: 0;
-        font-size: 0.83rem;
-        line-height: 1.6;
-        padding: 0.6rem 0.9rem;
-        border-radius: var(--r-md);
+      .msg-row.msg-row-user {
+        align-self: flex-end;
+        align-items: flex-end;
       }
-
-      .msg-ai {
+      .msg-row.msg-row-ai {
         align-self: flex-start;
+        align-items: flex-start;
       }
-      .msg-ai p {
+
+      .msg-label {
+        font-size: 0.66rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        font-family: 'Geist Mono', monospace;
+        padding: 0 0.2rem;
+      }
+
+      /* Bubble */
+      .bubble {
+        font-size: 0.84rem;
+        line-height: 1.65;
+        padding: 0.65rem 0.95rem;
+        border-radius: var(--r-md);
+        word-break: break-word;
+      }
+
+      /* AI bubble */
+      .bubble-ai {
         background: var(--bg-muted);
         border: 1px solid var(--border);
         color: var(--text-muted);
         border-bottom-left-radius: var(--r-xs);
       }
-
-      .msg-user {
-        align-self: flex-end;
+      /* AI bubble markdown styles */
+      .bubble-ai strong { color: var(--text); font-weight: 600; }
+      .bubble-ai em { font-style: italic; }
+      .bubble-ai code {
+        font-family: 'Geist Mono', monospace;
+        font-size: 0.78rem;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-soft);
+        padding: 0.1em 0.4em;
+        border-radius: 3px;
+        color: var(--text);
       }
-      .msg-user p {
+      .bubble-ai ul, .bubble-ai ol {
+        margin: 0.5rem 0 0.25rem 1.1rem;
+        padding: 0;
+        color: var(--text-muted);
+      }
+      .bubble-ai li { margin-bottom: 0.3rem; }
+      .bubble-ai p { margin: 0 0 0.5rem; color: var(--text-muted); }
+      .bubble-ai p:last-child { margin-bottom: 0; }
+
+      /* User bubble */
+      .bubble-user {
         background: var(--text);
         color: var(--bg);
         border-bottom-right-radius: var(--r-xs);
+        font-weight: 450;
       }
 
-      .msg-error {
-        align-self: flex-start;
-        max-width: 92%;
-      }
-      .msg-error p {
+      /* Error bubble */
+      .bubble-error {
         background: transparent;
-        border: 1px dashed #52525b;
+        border: 1px dashed var(--border-soft);
         color: var(--text-dim);
         border-radius: var(--r-md);
         font-size: 0.8rem;
@@ -519,7 +554,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       }
 
       /* Typing indicator */
-      .typing p {
+      .bubble.typing {
         display: flex;
         align-items: center;
         gap: 4px;
@@ -667,33 +702,105 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         });
       });
 
+      /* ── Lightweight markdown → HTML ── */
+      function renderMarkdown(text) {
+        // Escape HTML first
+        let s = text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+
+        // Fenced code blocks
+        s = s.replace(/```[\w]*\n([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+        // Bold + italic combos first
+        s = s.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+        // Bold
+        s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        // Italic
+        s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        // Inline code
+        s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        // Lists — collect consecutive bullet lines into <ul>
+        s = s.replace(/((?:[ \t]*[*\-][ \t]+.+\n?)+)/g, (block) => {
+          const items = block.trim().split('\n').map(line =>
+            '<li>' + line.replace(/^[ \t]*[*\-][ \t]+/, '') + '</li>'
+          ).join('');
+          return '<ul>' + items + '</ul>';
+        });
+
+        // Numbered lists
+        s = s.replace(/((?:[ \t]*\d+\.[ \t]+.+\n?)+)/g, (block) => {
+          const items = block.trim().split('\n').map(line =>
+            '<li>' + line.replace(/^[ \t]*\d+\.[ \t]+/, '') + '</li>'
+          ).join('');
+          return '<ol>' + items + '</ol>';
+        });
+
+        // Paragraphs — double newline → paragraph breaks
+        s = s.split(/\n{2,}/).map(para => {
+          para = para.trim();
+          if (!para) return '';
+          if (para.startsWith('<ul>') || para.startsWith('<ol>') || para.startsWith('<pre>')) return para;
+          return '<p>' + para.replace(/\n/g, '<br>') + '</p>';
+        }).join('');
+
+        return s;
+      }
+
       function addMsg(role, text) {
-        const wrap = document.createElement('div');
-        wrap.className = `msg msg-${role === 'user' ? 'user' : 'ai'}`;
-        const p = document.createElement('p');
-        p.textContent = text;
-        wrap.appendChild(p);
-        msgsEl.appendChild(wrap);
+        const isUser = role === 'user';
+        const row = document.createElement('div');
+        row.className = `msg-row msg-row-${isUser ? 'user' : 'ai'}`;
+
+        const label = document.createElement('span');
+        label.className = 'msg-label';
+        label.textContent = isUser ? 'You' : 'Vishnu AI';
+
+        const bubble = document.createElement('div');
+        bubble.className = `bubble bubble-${isUser ? 'user' : 'ai'}`;
+        if (isUser) {
+          bubble.textContent = text;
+        } else {
+          bubble.innerHTML = renderMarkdown(text);
+        }
+
+        row.appendChild(label);
+        row.appendChild(bubble);
+        msgsEl.appendChild(row);
         msgsEl.scrollTop = msgsEl.scrollHeight;
-        return p;
+        return bubble;
       }
 
       function addErrorMsg(message) {
-        const wrap = document.createElement('div');
-        wrap.className = 'msg msg-error';
-        const p = document.createElement('p');
-        p.textContent = message;
-        wrap.appendChild(p);
-        msgsEl.appendChild(wrap);
+        const row = document.createElement('div');
+        row.className = 'msg-row msg-row-ai';
+        const label = document.createElement('span');
+        label.className = 'msg-label';
+        label.textContent = 'Error';
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble bubble-error';
+        bubble.textContent = message;
+        row.appendChild(label);
+        row.appendChild(bubble);
+        msgsEl.appendChild(row);
         msgsEl.scrollTop = msgsEl.scrollHeight;
       }
 
       function showTyping() {
-        const wrap = document.createElement('div');
-        wrap.className = 'msg msg-ai typing';
-        wrap.id = 'typing-row';
-        wrap.innerHTML = '<p><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></p>';
-        msgsEl.appendChild(wrap);
+        const row = document.createElement('div');
+        row.className = 'msg-row msg-row-ai';
+        row.id = 'typing-row';
+        const label = document.createElement('span');
+        label.className = 'msg-label';
+        label.textContent = 'Vishnu AI';
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble bubble-ai typing';
+        bubble.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+        row.appendChild(label);
+        row.appendChild(bubble);
+        msgsEl.appendChild(row);
         msgsEl.scrollTop = msgsEl.scrollHeight;
       }
       function hideTyping() { document.getElementById('typing-row')?.remove(); }
@@ -751,7 +858,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
                     const p = JSON.parse(line.slice(6));
                     if (p.type === 'chunk') {
                       full += p.text || '';
-                      bubble.textContent = full;
+                      bubble.innerHTML = renderMarkdown(full);
                       msgsEl.scrollTop = msgsEl.scrollHeight;
                     } else if (p.type === 'error') {
                       streamError = p.error;
@@ -764,7 +871,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
           // Stream returned an error event
           if (streamError && !full) {
-            bubble.closest('.msg')?.remove();
+            bubble.closest('.msg-row')?.remove();
             history.pop();
             addErrorMsg(streamError);
             return;
@@ -780,15 +887,15 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
               });
               const data = await fb.json().catch(() => ({}));
               if (!fb.ok || data.error) {
-                bubble.closest('.msg')?.remove();
+                bubble.closest('.msg-row')?.remove();
                 history.pop();
                 addErrorMsg(data.error || 'No response received.');
                 return;
               }
               full = data.text || 'No response.';
-              bubble.textContent = full;
+              bubble.innerHTML = renderMarkdown(full);
             } catch {
-              bubble.closest('.msg')?.remove();
+              bubble.closest('.msg-row')?.remove();
               history.pop();
               addErrorMsg('Connection error. Please try again.');
               return;
