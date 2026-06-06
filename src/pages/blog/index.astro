@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
@@ -7,9 +6,12 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('blog')).sort(
+const posts = (await getCollection('blog')).filter((post) => !post.data.draft).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const featuredPost = posts[0];
+const remainingPosts = posts.slice(1);
 ---
 
 <!doctype html>
@@ -17,71 +19,195 @@ const posts = (await getCollection('blog')).sort(
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
+			/* Hallmark · component: blog-index · genre: technical editorial · theme: shadcn-minimal
+			 * states: default · hover · focus · active
+			 * contrast: pass (46-50)
+			 */
 			main {
-				width: 960px;
+				max-width: 1080px;
+				padding: 3.5rem 1.5rem 5rem;
 			}
-			ul {
+			.blog-shell {
+				display: grid;
+				gap: 2rem;
+			}
+			.blog-hero {
+				display: grid;
+				grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+				gap: 2rem;
+				align-items: end;
+				padding-bottom: 2rem;
+				border-bottom: 1px solid var(--border);
+			}
+			.kicker,
+			.post-meta,
+			.post-tag,
+			.archive-label {
+				font-family: 'Geist Mono', monospace;
+			}
+			.kicker {
+				color: var(--text-subtle);
+				font-size: 0.78rem;
+				font-weight: 500;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				margin-bottom: 0.9rem;
+			}
+			.blog-hero h1 {
+				max-width: 11ch;
+				margin: 0;
+				font-size: clamp(2.6rem, 8vw, 5.8rem);
+				line-height: 0.92;
+				letter-spacing: -0.07em;
+			}
+			.blog-intro {
+				max-width: 620px;
+				color: var(--text-muted);
+				font-size: 1.02rem;
+				line-height: 1.75;
+				margin: 0 0 1.25rem;
+			}
+			.topic-row {
 				display: flex;
 				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
+				gap: 0.5rem;
+			}
+			.featured-card,
+			.post-card {
+				display: grid;
+				gap: 1rem;
+				padding: 1.1rem;
+				background: var(--bg-subtle);
+				border: 1px solid var(--border);
+				border-radius: var(--r-lg);
+				transition: var(--transition);
+			}
+			.featured-card:hover,
+			.featured-card:focus-visible,
+			.post-card:hover,
+			.post-card:focus-visible {
+				background: var(--bg-muted);
+				border-color: var(--border-soft);
+				box-shadow: var(--shadow-sm);
+				transform: translateY(-2px);
+				outline: none;
+			}
+			.featured-card:active,
+			.post-card:active {
+				transform: translateY(0);
+			}
+			.featured-card {
+				grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+				gap: 1.5rem;
+				padding: 1.5rem;
+			}
+			.featured-index {
+				min-height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				border-right: 1px solid var(--border);
+				padding-right: 1.5rem;
+			}
+			.archive-label,
+			.post-meta {
+				color: var(--text-subtle);
+				font-size: 0.76rem;
+				letter-spacing: 0.05em;
+				text-transform: uppercase;
+			}
+			.featured-number {
+				color: var(--text);
+				font-size: clamp(3rem, 10vw, 6.8rem);
+				font-weight: 800;
+				line-height: 0.9;
+				letter-spacing: -0.08em;
+			}
+			.post-title {
+				margin: 0;
+				color: var(--text);
+				line-height: 1.08;
+				letter-spacing: -0.035em;
+			}
+			.featured-card .post-title {
+				font-size: clamp(1.6rem, 4vw, 3rem);
+			}
+			.post-card .post-title {
+				font-size: clamp(1.08rem, 2vw, 1.35rem);
+			}
+			.post-desc {
+				color: var(--text-muted);
+				line-height: 1.72;
+				margin: 0;
+			}
+			.post-tag {
+				width: max-content;
+				padding: 0.2rem 0.55rem;
+				border: 1px solid var(--border);
+				border-radius: var(--r-xs);
+				color: var(--text-muted);
+				font-size: 0.7rem;
+				background: var(--bg);
+			}
+			.archive-head {
+				display: flex;
+				justify-content: space-between;
+				gap: 1rem;
+				align-items: end;
+				margin-top: 0.5rem;
+			}
+			.archive-head h2 {
+				margin: 0;
+			}
+			.post-grid {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 1rem;
+				list-style: none;
 				margin: 0;
 				padding: 0;
 			}
-			ul li {
-				width: calc(50% - 1rem);
+			.post-card {
+				min-height: 100%;
 			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
+			.post-card footer,
+			.featured-copy footer {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 1rem;
+				margin-top: auto;
 			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
+			.read-link {
+				color: var(--text);
+				font-size: 0.85rem;
+				font-weight: 600;
+				white-space: nowrap;
 			}
 			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
+				main {
+					padding-top: 2.25rem;
 				}
-				ul li {
-					width: 100%;
-					text-align: center;
+				.blog-hero,
+				.featured-card,
+				.post-grid {
+					grid-template-columns: 1fr;
 				}
-				ul li:first-child {
-					margin-bottom: 0;
+				.featured-index {
+					min-height: auto;
+					border-right: 0;
+					border-bottom: 1px solid var(--border);
+					padding: 0 0 1rem;
+					gap: 1.5rem;
 				}
-				ul li:first-child .title {
-					font-size: 1.563em;
+				.archive-head {
+					display: grid;
+					gap: 0.35rem;
+				}
+				.post-card footer,
+				.featured-copy footer {
+					align-items: flex-start;
+					flex-direction: column;
 				}
 			}
 		</style>
@@ -89,23 +215,73 @@ const posts = (await getCollection('blog')).sort(
 	<body>
 		<Header />
 		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
+			<section class="blog-shell" aria-label="Technical blog archive">
+				<div class="blog-hero">
+					<div>
+						<p class="kicker">Operations journal</p>
+						<h1>DevOps field notes.</h1>
+					</div>
+					<div>
+						<p class="blog-intro">
+							Deep, opinionated notes on Kubernetes, CI/CD, AI platform engineering,
+							security scanning, monitoring, and the failure modes that only show up in production.
+						</p>
+						<div class="topic-row" aria-label="Blog topics">
+							<span class="badge">kubernetes</span>
+							<span class="badge">ai-devops</span>
+							<span class="badge">jenkins</span>
+							<span class="badge">security</span>
+							<span class="badge">observability</span>
+						</div>
+					</div>
+				</div>
+
+				{featuredPost && (
+					<a class="featured-card" href={`/blog/${featuredPost.id}/`} aria-label={`Read ${featuredPost.data.title}`}>
+						<div class="featured-index">
+							<span class="archive-label">Latest analysis</span>
+							<span class="featured-number">01</span>
+						</div>
+						<article class="featured-copy">
+							<p class="post-meta">
+								<FormattedDate date={featuredPost.data.pubDate} />
+							</p>
+							<h2 class="post-title">{featuredPost.data.title}</h2>
+							<p class="post-desc">{featuredPost.data.description}</p>
+							<footer>
+								<span class="post-tag">production note</span>
+								<span class="read-link">Read article</span>
+							</footer>
+						</article>
+					</a>
+				)}
+
+				<div class="archive-head">
+					<div>
+						<p class="archive-label">Archive</p>
+						<h2>Recent writing</h2>
+					</div>
+					<p class="post-meta">{posts.length} published posts</p>
+				</div>
+
+				<ul class="post-grid">
+					{remainingPosts.map((post) => (
+						<li>
+							<a class="post-card" href={`/blog/${post.id}/`} aria-label={`Read ${post.data.title}`}>
+								<article>
+									<p class="post-meta">
 										<FormattedDate date={post.data.pubDate} />
 									</p>
-								</a>
-							</li>
-						))
-					}
+									<h3 class="post-title">{post.data.title}</h3>
+									<p class="post-desc">{post.data.description}</p>
+								</article>
+								<footer>
+									<span class="post-tag">field report</span>
+									<span class="read-link">Read</span>
+								</footer>
+							</a>
+						</li>
+					))}
 				</ul>
 			</section>
 		</main>

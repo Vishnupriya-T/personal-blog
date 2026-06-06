@@ -1,0 +1,9 @@
+{
+  "scannedAt": "2026-06-06",
+  "framework": "Astro 6 SSR with @astrojs/vercel",
+  "fontStack": "Geist and Geist Mono via src/styles/global.css",
+  "palette": "CSS custom properties in src/styles/global.css",
+  "motion": "motion-cut; no motion library dependency detected",
+  "spacing": "CSS custom-property radius tokens and local component spacing",
+  "preserve": ["font stack", "CSS token palette", "Astro content collections"]
+}
