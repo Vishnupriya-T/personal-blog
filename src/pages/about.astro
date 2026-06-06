@@ -1,92 +1,529 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+
+const experience = [
+  {
+    role: 'Senior DevOps Engineer',
+    company: 'Freddie Mac',
+    location: 'Dallas, TX',
+    dates: 'June 2023 - Present',
+    points: [
+      'Built self-service Jenkins automation for PostgreSQL and MongoDB provisioning across enterprise microservice environments.',
+      'Designed Kubernetes namespace scale up/down workflows, HPA automation, and app + database scaling patterns to reduce off-hours compute waste.',
+      'Integrated Fortify and FOSS security scans into CI/CD pipelines with threshold gates for DevSecOps compliance.',
+      'Created production deployment guardrails, modular Jenkins shared libraries, and Rafay-based Kubernetes release workflows.',
+      'Designed namespace-level failover automation with Java REST APIs for coordinated service, database, and FQDN recovery.',
+    ],
+  },
+  {
+    role: 'DevOps Engineer',
+    company: 'VISA / Techwave',
+    location: 'Hyderabad, India',
+    dates: 'June 2020 - Jan 2022',
+    points: [
+      'Managed EKS deployments for Spring Boot workloads with namespaces, Helm, HPA, ConfigMaps, and rolling updates.',
+      'Built Jenkins pipelines with GitHub, Maven, SonarQube, Docker, Ansible, and Kubernetes for end-to-end delivery.',
+      'Provisioned AWS infrastructure with Terraform and Ansible across EC2, IAM, S3, security groups, and VPC networking.',
+      'Created Bash and Python automation for ECR cleanup, deployment verification, backups, and operational tasks.',
+    ],
+  },
+  {
+    role: 'DevOps Engineer Intern',
+    company: 'Techwave',
+    location: 'Hyderabad, India',
+    dates: 'Dec 2019 - May 2020',
+    points: [
+      'Automated recurring build and operational tasks with shell scripts.',
+      'Supported troubleshooting for production issues, service scaling, test environments, and infrastructure workflows.',
+      'Improved team efficiency by automating repetitive workflows with Bash and shell scripting.',
+    ],
+  },
+  {
+    role: 'Research Intern',
+    company: 'National Institute of Technology',
+    location: 'Warangal, India',
+    dates: 'May 2019 - June 2019',
+    points: [
+      'Assisted research on pedestrian detection using image processing and computer vision techniques.',
+      'Worked with a Hadoop cluster to process and manage large-scale image datasets.',
+      'Collaborated with team members through Git-based version control.',
+    ],
+  },
+];
+
+const skillGroups = [
+  ['Cloud & Platform', 'AWS', 'Azure', 'Linux', 'Microservices', 'IAM', 'VPC'],
+  ['Kubernetes & Containers', 'Kubernetes', 'Docker', 'Helm', 'EKS', 'CKA', 'Rafay'],
+  ['IaC & Automation', 'Terraform', 'Ansible', 'CloudFormation', 'Bash', 'Python', 'Groovy'],
+  ['CI/CD & Security', 'Jenkins', 'GitHub Actions', 'SonarQube', 'Fortify', 'FOSS', 'Trivy'],
+  ['Observability', 'Prometheus', 'Grafana', 'CloudWatch', 'Kibana', 'Runbooks'],
+  ['AI / MLOps', 'LangChain', 'OpenAI embeddings', 'FAISS', 'Streamlit', 'SageMaker'],
+];
+
+const projects = [
+  {
+    name: 'NestQuest Housing Chatbot',
+    detail: 'AI-powered housing recommendation assistant using LangChain, OpenAI embeddings, Streamlit, and FAISS vector search.',
+  },
+  {
+    name: 'Image Segmentation Platform',
+    detail: 'Deep learning segmentation models with PSPNet and U-Net, containerized with Docker and deployed on local Kubernetes.',
+  },
+  {
+    name: 'Large-Scale Object Detection',
+    detail: 'Object detection pipeline over 1.68M images using Hadoop and PySpark for distributed data processing.',
+  },
+];
 ---
 
-<Layout
-	title="About Me"
-	description="Senior DevOps Engineer specializing in cloud-native platform engineering, Kubernetes, and AI/MLOps automation."
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Senior DevOps Engineer with 5+ years of experience building and operating scalable Kubernetes platforms, cloud infrastructure, CI/CD systems, and developer automation for enterprise microservices environments.
-	</p>
-	<p>
-		I combine platform engineering expertise with AI/ML infrastructure experience to deliver resilient, compliant, and cost-effective cloud-native solutions for modern engineering organizations.
-	</p>
-	<p>
-		Connect with me on <a href="https://www.linkedin.com/in/vishnu-priya-t/" target="_blank">LinkedIn</a> or <a href="https://github.com/Vishnupriya-T" target="_blank">GitHub</a>.
-	</p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title="About Vishnu Priya Thanda"
+      description="Senior DevOps Engineer specializing in Kubernetes, cloud infrastructure, CI/CD, DevSecOps, and AI/MLOps platforms."
+    />
+    <style>
+      /* Hallmark · component: about-page · genre: technical profile · theme: shadcn-minimal
+       * states: default · hover · focus · active
+       * contrast: pass (46-50)
+       */
+      main {
+        max-width: 1080px;
+        padding: 3.5rem 1.5rem 5rem;
+      }
 
-	<h2>Professional Experience</h2>
+      .about-page {
+        display: grid;
+        gap: 3rem;
+      }
 
-	<h3>Freddie Mac | Senior DevOps Engineer</h3>
-	<p>Dallas, TX | June 2023 – Present</p>
-	<ul>
-		<li>Automated PostgreSQL and MongoDB provisioning through Jenkins pipelines, enabling self-service infrastructure setup for 1000+ microservices and reducing operational overhead.</li>
-		<li>Built Kubernetes-based namespace scale up/down pipelines using CronJobs and infra repo configurations to optimize off-hours compute costs.</li>
-		<li>Developed HPA min/max autoscaling pipelines with scheduled and on-demand scaling to balance application performance and infrastructure cost.</li>
-		<li>Delivered an “app + database” scaling solution using Kubernetes Jobs to coordinate deployments and associated databases together.</li>
-		<li>Integrated Fortify and FOSS security scans into CI/CD pipelines with enforced threshold gates to strengthen DevSecOps compliance.</li>
-		<li>Refactored monolithic Jenkins libraries into modular shared libraries to improve maintainability, reuse, and technical debt reduction.</li>
-		<li>Implemented Rafay-based Kubernetes deployments to improve governance, deployment consistency, and cluster management.</li>
-		<li>Added production deployment guardrails for strict app and infrastructure release controls during business hours.</li>
-		<li>Built internal Java, Python, and Node.js reference apps to validate deployment templates and accelerate onboarding for new services.</li>
-		<li>Designed a namespace-level self-service failover platform with Java REST APIs for automated region failover of microservices, databases, and FQDNs.</li>
-	</ul>
+      .about-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.65fr);
+        gap: 2rem;
+        align-items: stretch;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border);
+      }
 
-	<h3>VISA (Techwave) | DevOps Engineer</h3>
-	<p>Hyderabad, India | June 2020 – Jan 2022</p>
-	<ul>
-		<li>Managed Kubernetes deployments on EKS including namespaces, HPA scaling, ConfigMaps, rolling updates, Helm deployments, and service reliability for Spring Boot workloads.</li>
-		<li>Built Jenkins pipelines integrated with GitHub, Maven, SonarQube, Docker, Ansible, and Kubernetes for end-to-end build and deployment automation.</li>
-		<li>Provisioned AWS infrastructure using Terraform and Ansible for EC2, IAM, S3, security groups, and VPC networking.</li>
-		<li>Created and maintained Helm charts for microservice deployment across development and QA Kubernetes environments.</li>
-		<li>Authored Ansible playbooks for environment configuration, tooling installation, and infrastructure automation.</li>
-		<li>Developed Bash and Python scripts for ECR image cleanup, deployment verification, automation, and backup management.</li>
-	</ul>
+      .kicker,
+      .meta-line,
+      .stat-label,
+      .section-label,
+      .chip,
+      .timeline-date {
+        font-family: 'Geist Mono', monospace;
+      }
 
-	<h3>Techwave | DevOps Engineer Intern</h3>
-	<p>Hyderabad, India | Dec 2019 – May 2020</p>
-	<ul>
-		<li>Automated recurring build and operational tasks with shell scripts, reducing manual effort and improving release efficiency.</li>
-		<li>Supported troubleshooting for production issues, service scaling, test environments, and infrastructure workflows.</li>
-		<li>Improved team efficiency by 30% through automating repetitive workflows with Bash and shell scripting.</li>
-	</ul>
+      .kicker {
+        color: var(--text-subtle);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
 
-	<h3>National Institute of Technology | Research Intern</h3>
-	<p>Warangal, India | May 2019 – June 2019</p>
-	<ul>
-		<li>Assisted in publishing research on pedestrian detection using image processing and computer vision techniques.</li>
-		<li>Worked with a Hadoop cluster to process and manage large-scale image datasets.</li>
-		<li>Collaborated with team members using Git-based version control to organize code changes and research tasks.</li>
-	</ul>
+      .about-hero h1 {
+        max-width: 12ch;
+        margin: 0;
+        font-size: clamp(2.6rem, 7vw, 5.6rem);
+        line-height: 0.93;
+        letter-spacing: -0.07em;
+      }
 
-	<h2>Selected Projects</h2>
-	<ul>
-		<li><strong>NestQuest Housing Chatbot</strong> — Built an AI-powered housing recommendation chatbot with LangChain, OpenAI embeddings, Streamlit, and FAISS vector search.</li>
-		<li><strong>Image Segmentation Platform</strong> — Developed deep learning image segmentation models with PSPNet and U-Net, containerized them with Docker, and deployed on a local Kubernetes cluster.</li>
-		<li><strong>Large-Scale Object Detection</strong> — Implemented an object detection pipeline on 1.68M images using Hadoop and PySpark for big data processing.</li>
-	</ul>
+      .lead {
+        max-width: 650px;
+        color: var(--text-muted);
+        font-size: 1.04rem;
+        line-height: 1.75;
+        margin: 1.35rem 0 0;
+      }
 
-	<h2>Skills</h2>
-	<ul>
-		<li><strong>Cloud & Platform:</strong> AWS, Azure, EC2, S3, RDS, IAM, Lambda, SQS, VPC, Linux, Microservices.</li>
-		<li><strong>Kubernetes & Containers:</strong> Kubernetes, Docker, Helm, CKA, EKS, cluster operations, container orchestration.</li>
-		<li><strong>IaC & Automation:</strong> Terraform, Ansible, CloudFormation, Bash, shell scripting, Groovy, Python.</li>
-		<li><strong>CI/CD & Release:</strong> Jenkins, GitHub Actions, GitLab CI, TeamCity, Spinnaker, AWS CodePipeline, Maven, Gradle.</li>
-		<li><strong>Observability & Security:</strong> Prometheus, Grafana, CloudWatch, Kibana, log analysis, incident response, runbooks, IAM policies, secure CI/CD.</li>
-		<li><strong>AI/MLOps:</strong> LangChain, OpenAI embeddings, FAISS, Streamlit, model hosting, Weights & Biases, SageMaker.</li>
-		<li><strong>Data & Artifacts:</strong> SQL, PostgreSQL, MySQL, Git, GitHub, GitLab, JFrog Artifactory, Nexus.</li>
-	</ul>
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1.5rem;
+      }
 
-	<h2>Education & Certifications</h2>
-	<ul>
-		<li><strong>Master of Science in Data Science</strong> — University of Maryland, Baltimore County | GPA: 4.0</li>
-		<li><strong>B.Tech in Computer Science & Engineering</strong> — IIIT Basar (RGUKT) | GPA: 3.8</li>
-		<li>Certified Kubernetes Administrator (CKA) by CNCF.</li>
-		<li>MLOps, Machine Learning Operations by Coursera.</li>
-		<li>Practical Deep Learning by NVIDIA.</li>
-	</ul>
-</Layout>
+      .profile-card {
+        min-height: 100%;
+        padding: 1.25rem;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        display: grid;
+        gap: 1.1rem;
+      }
+
+      .profile-mark {
+        width: 64px;
+        height: 64px;
+        display: grid;
+        place-items: center;
+        border-radius: var(--r-md);
+        background: var(--text);
+        color: var(--bg);
+        font-size: 1.1rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        font-family: 'Geist Mono', monospace;
+      }
+
+      .profile-card h2 {
+        margin: 0;
+        font-size: 1.35rem;
+      }
+
+      .meta-list {
+        display: grid;
+        gap: 0.65rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .meta-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-top: 0.65rem;
+        border-top: 1px solid var(--border);
+        color: var(--text-muted);
+      }
+
+      .meta-line {
+        color: var(--text-subtle);
+        font-size: 0.73rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .stat-strip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .stat-card {
+        padding: 1rem;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+      }
+
+      .stat-value {
+        display: block;
+        color: var(--text);
+        font-size: clamp(1.5rem, 4vw, 2.25rem);
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        line-height: 1;
+      }
+
+      .stat-label {
+        display: block;
+        margin-top: 0.45rem;
+        color: var(--text-subtle);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      .section-head h2 {
+        margin: 0;
+      }
+
+      .section-label {
+        color: var(--text-subtle);
+        font-size: 0.76rem;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        margin: 0 0 0.35rem;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 0.9rem;
+      }
+
+      .timeline-item {
+        display: grid;
+        grid-template-columns: minmax(180px, 0.35fr) minmax(0, 1fr);
+        gap: 1.25rem;
+        padding: 1.1rem;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+      }
+
+      .timeline-date {
+        color: var(--text-subtle);
+        font-size: 0.75rem;
+        line-height: 1.5;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .timeline-title h3 {
+        margin: 0;
+        font-size: 1.18rem;
+      }
+
+      .timeline-title p {
+        margin: 0.25rem 0 0;
+        color: var(--text-subtle);
+      }
+
+      .timeline-item ul {
+        margin: 1rem 0 0;
+        padding-left: 1.1rem;
+      }
+
+      .timeline-item li {
+        color: var(--text-muted);
+        margin-bottom: 0.45rem;
+      }
+
+      .panel-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .project-card,
+      .education-card,
+      .skill-group {
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 1rem;
+      }
+
+      .project-card h3,
+      .education-card h3,
+      .skill-group h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1rem;
+      }
+
+      .project-card p,
+      .education-card p {
+        margin: 0;
+        color: var(--text-muted);
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .chip {
+        display: inline-flex;
+        padding: 0.22rem 0.55rem;
+        border: 1px solid var(--border);
+        border-radius: var(--r-xs);
+        color: var(--text-muted);
+        background: var(--bg);
+        font-size: 0.7rem;
+      }
+
+      .education-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      @media (max-width: 820px) {
+        .about-hero,
+        .timeline-item,
+        .panel-grid,
+        .skills-grid,
+        .education-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stat-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .section-head {
+          display: grid;
+          gap: 0.35rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        main {
+          padding-top: 2.25rem;
+        }
+
+        .stat-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .meta-list li {
+          display: grid;
+          gap: 0.2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="about-page">
+        <section class="about-hero" aria-label="About Vishnu">
+          <div>
+            <p class="kicker">About Vishnu Priya Thanda</p>
+            <h1>Platform engineer for production systems.</h1>
+            <p class="lead">
+              I am a Senior DevOps Engineer focused on Kubernetes platforms, cloud
+              infrastructure, secure CI/CD, and AI/MLOps-ready automation for enterprise
+              microservice environments. My work sits where reliability, developer
+              experience, governance, and cost control meet.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="https://www.linkedin.com/in/vishnu-priya-t/" target="_blank" rel="noopener">LinkedIn</a>
+              <a class="btn btn-outline" href="https://github.com/Vishnupriya-T" target="_blank" rel="noopener">GitHub</a>
+              <a class="btn btn-ghost" href="/blog">Read technical writing</a>
+            </div>
+          </div>
+
+          <aside class="profile-card" aria-label="Profile summary">
+            <div class="profile-mark">VP</div>
+            <div>
+              <h2>Senior DevOps Engineer</h2>
+              <p>Cloud-native platform engineering, Kubernetes operations, DevSecOps, automation, and AI infrastructure.</p>
+            </div>
+            <ul class="meta-list">
+              <li><span class="meta-line">Location</span><span>Dallas, TX</span></li>
+              <li><span class="meta-line">Current</span><span>Freddie Mac</span></li>
+              <li><span class="meta-line">Certification</span><span>CKA</span></li>
+              <li><span class="meta-line">Education</span><span>MS Data Science</span></li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="stat-strip" aria-label="Career highlights">
+          <div class="stat-card"><span class="stat-value">5+</span><span class="stat-label">Years in DevOps</span></div>
+          <div class="stat-card"><span class="stat-value">1000+</span><span class="stat-label">Microservices supported</span></div>
+          <div class="stat-card"><span class="stat-value">CKA</span><span class="stat-label">Kubernetes certified</span></div>
+          <div class="stat-card"><span class="stat-value">4.0</span><span class="stat-label">MS Data Science GPA</span></div>
+        </section>
+
+        <section aria-label="Professional experience">
+          <div class="section-head">
+            <div>
+              <p class="section-label">Experience</p>
+              <h2>Work built around automation and reliability.</h2>
+            </div>
+            <p class="meta-line">Enterprise platforms · cloud · CI/CD</p>
+          </div>
+          <div class="timeline">
+            {experience.map((item) => (
+              <article class="timeline-item">
+                <div class="timeline-date">
+                  <p>{item.dates}</p>
+                  <p>{item.location}</p>
+                </div>
+                <div>
+                  <div class="timeline-title">
+                    <h3>{item.role}</h3>
+                    <p>{item.company}</p>
+                  </div>
+                  <ul>
+                    {item.points.map((point) => <li>{point}</li>)}
+                  </ul>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section aria-label="Selected projects">
+          <div class="section-head">
+            <div>
+              <p class="section-label">Projects</p>
+              <h2>AI, data, and platform work.</h2>
+            </div>
+          </div>
+          <div class="panel-grid">
+            {projects.map((project) => (
+              <article class="project-card">
+                <h3>{project.name}</h3>
+                <p>{project.detail}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section aria-label="Skills">
+          <div class="section-head">
+            <div>
+              <p class="section-label">Skills</p>
+              <h2>Tooling across the delivery path.</h2>
+            </div>
+          </div>
+          <div class="skills-grid">
+            {skillGroups.map(([group, ...skills]) => (
+              <article class="skill-group">
+                <h3>{group}</h3>
+                <div class="chip-row">
+                  {skills.map((skill) => <span class="chip">{skill}</span>)}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section aria-label="Education and certifications">
+          <div class="section-head">
+            <div>
+              <p class="section-label">Education</p>
+              <h2>Academic and certification foundation.</h2>
+            </div>
+          </div>
+          <div class="education-grid">
+            <article class="education-card">
+              <h3>Master of Science in Data Science</h3>
+              <p>University of Maryland, Baltimore County · GPA 4.0</p>
+            </article>
+            <article class="education-card">
+              <h3>B.Tech in Computer Science & Engineering</h3>
+              <p>IIIT Basar (RGUKT) · GPA 3.8</p>
+            </article>
+            <article class="education-card">
+              <h3>Certified Kubernetes Administrator</h3>
+              <p>CNCF credential focused on Kubernetes operations and cluster administration.</p>
+            </article>
+            <article class="education-card">
+              <h3>MLOps and Deep Learning</h3>
+              <p>Machine Learning Operations by Coursera and Practical Deep Learning by NVIDIA.</p>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
