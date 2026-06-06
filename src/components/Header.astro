@@ -138,19 +138,19 @@ import HeaderLink from './HeaderLink.astro';
     gap: 0.35rem;
     font-size: 0.82rem;
     font-weight: 500;
-    color: #22c55e;
+    color: var(--success);
     text-decoration: none;
     padding: 0.35rem 0.65rem;
     border-radius: var(--r-sm);
-    border: 1px solid rgba(34,197,94,0.2);
-    background: rgba(34,197,94,0.06);
+    border: 1px solid var(--success-mid);
+    background: var(--success-soft);
     transition: var(--transition);
     white-space: nowrap;
     margin-left: 0.25rem;
   }
   .monitor-link:hover {
-    background: rgba(34,197,94,0.12);
-    border-color: rgba(34,197,94,0.4);
+    background: var(--success-soft);
+    border-color: var(--success-strong);
   }
   .monitor-link.mobile {
     margin-left: 0;
@@ -161,8 +161,8 @@ import HeaderLink from './HeaderLink.astro';
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #22c55e;
-    box-shadow: 0 0 6px #22c55e;
+    background: var(--success);
+    box-shadow: 0 0 6px var(--success);
     animation: pulse-dot 2s ease-in-out infinite;
     flex-shrink: 0;
   }

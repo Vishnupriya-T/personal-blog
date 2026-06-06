@@ -24,10 +24,10 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
       .hero-image {
         width: 100%;
-        border-radius: var(--radius-xl);
+        border-radius: var(--r-xl);
         overflow: hidden;
         margin-bottom: 2.5rem;
-        box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+        box-shadow: var(--shadow-lg);
         border: 1px solid var(--border);
       }
 
@@ -36,7 +36,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         width: 100%;
         height: 380px;
         object-fit: cover;
-        border-radius: var(--radius-xl);
+        border-radius: var(--r-xl);
         margin: 0;
       }
 
@@ -76,24 +76,21 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         font-size: clamp(1.8rem, 4vw, 2.8rem);
         font-weight: 800;
         letter-spacing: -0.03em;
-        background: linear-gradient(135deg, var(--text-primary), var(--accent-glow));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: var(--text);
         margin: 0;
         line-height: 1.15;
       }
 
       /* Prose content */
       .prose-content {
-        color: var(--text-secondary);
+        color: var(--text-muted);
         line-height: 1.8;
       }
 
       .prose-content h2 {
         font-size: 1.5rem;
         font-weight: 700;
-        color: var(--text-primary);
+        color: var(--text);
         margin: 2.5rem 0 1rem;
         padding-bottom: 0.5rem;
         border-bottom: 1px solid var(--border);
@@ -102,20 +99,20 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       .prose-content h3 {
         font-size: 1.2rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: var(--text);
         margin: 2rem 0 0.75rem;
       }
 
       .prose-content p { margin-bottom: 1.4em; }
 
       .prose-content a {
-        color: var(--accent-glow);
-        border-bottom: 1px solid var(--border-accent);
+        color: var(--text);
+        border-bottom: 1px solid var(--border-soft);
         transition: var(--transition);
       }
       .prose-content a:hover {
-        color: var(--teal);
-        border-color: var(--teal);
+        color: var(--text-muted);
+        border-color: var(--text-muted);
       }
 
       .prose-content ul, .prose-content ol {
@@ -124,7 +121,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       }
       .prose-content li { margin-bottom: 0.5rem; }
 
-      .prose-content strong { color: var(--text-primary); }
+      .prose-content strong { color: var(--text); }
 
       @media (max-width: 768px) {
         .article-wrap { padding: 1.5rem 1rem 3rem; }

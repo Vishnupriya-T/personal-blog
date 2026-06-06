@@ -1,5 +1,4 @@
 ---
-import HeaderLink from './HeaderLink.astro';
 ---
 
 <style>
@@ -7,10 +6,10 @@ import HeaderLink from './HeaderLink.astro';
     display: inline-flex;
     align-items: center;
     padding: 0.4rem 0.85rem;
-    border-radius: var(--radius-sm);
+    border-radius: var(--r-sm);
     font-size: 0.9rem;
     font-weight: 500;
-    color: var(--text-secondary);
+    color: var(--text-subtle);
     text-decoration: none;
     transition: var(--transition);
     border: 1px solid transparent;
@@ -18,14 +17,14 @@ import HeaderLink from './HeaderLink.astro';
   }
 
   .header-link:hover {
-    color: var(--text-primary);
-    background: var(--bg-card);
+    color: var(--text-muted);
+    background: var(--accent-soft);
     border-color: var(--border);
   }
 
   .header-link.active {
-    color: var(--accent-glow);
+    color: var(--text);
     background: var(--accent-soft);
-    border-color: var(--border-accent);
+    border-color: var(--border-soft);
   }
 </style>

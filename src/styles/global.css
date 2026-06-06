@@ -23,6 +23,10 @@
   --accent:      #09090b;
   --accent-soft: rgba(9,9,11,0.05);
   --accent-mid:  rgba(9,9,11,0.08);
+  --success:     #16a34a;
+  --success-soft: rgba(22,163,74,0.07);
+  --success-mid: rgba(22,163,74,0.24);
+  --success-strong: rgba(22,163,74,0.42);
 
   --r-xs: 4px;
   --r-sm: 6px;
@@ -58,6 +62,10 @@ html.dark {
   --accent:      #ffffff;
   --accent-soft: rgba(255,255,255,0.06);
   --accent-mid:  rgba(255,255,255,0.10);
+  --success:     #22c55e;
+  --success-soft: rgba(34,197,94,0.08);
+  --success-mid: rgba(34,197,94,0.24);
+  --success-strong: rgba(34,197,94,0.46);
 
   --shadow-xs: 0 1px 2px rgba(0,0,0,0.5);
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);

@@ -1,99 +1,59 @@
-# Astro Starter Kit: Blog
+# Vishnu Priya Thanda Portfolio
 
-```sh
-npm create astro@latest -- --template blog
+Astro SSR portfolio and technical blog for Vishnu Priya Thanda.
+
+The site presents a broad technical profile across DevOps, cloud infrastructure, CI/CD, automation, reliability, security, data, and practical AI-enabled systems. It includes a homepage portfolio, an About page, technical blog posts, RSS/sitemap support, and a Gemini-powered assistant endpoint.
+
+## Stack
+
+- Astro 6 with server output
+- Vercel adapter
+- Markdown and MDX content collections
+- Gemini API via `@google/genai`
+- RSS and sitemap integrations
+
+## Commands
+
+| Command | Action |
+| :-- | :-- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Start local dev server at `localhost:4321` |
+| `npm run build` | Build production output |
+| `npm run preview` | Preview the production build locally |
+| `npm run astro -- --help` | Show Astro CLI help |
+
+## Content
+
+Published blog posts live in `src/content/blog`.
+
+Draft or sample posts can stay in the content folder by setting:
+
+```yaml
+draft: true
 ```
 
-<!-- ASTRO:REMOVE:START -->
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/blog)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/blog/devcontainer.json)
-
-<!-- ASTRO:REMOVE:END -->
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-<!-- ASTRO:REMOVE:START -->
-
-![blog](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
-
-<!-- ASTRO:REMOVE:END -->
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Draft posts are excluded from the blog index, RSS feed, and prerendered blog routes.
 
 ## Gemini Assistant
 
-This site includes a lightweight Gemini-powered assistant endpoint at `/api/gemini` that can answer questions about the site owner.
+The homepage includes an "Ask Vishnu" assistant. The API route is:
 
-- Install the SDK (already added to this project): `npm install @google/genai`
-- Set your Gemini API key in your Vercel project (or as an environment variable) using one of these names:
-	- `GENAI_API_KEY`
-	- `VERCEL_GEMINI_API_KEY`
-	- `GEMINI_API_KEY`
-
-When the key is present the endpoint calls Gemini and returns the model response. If the key is not set, the endpoint returns a playful fallback message so visitors still get a friendly reply.
-
-Example request (curl):
-
-```bash
-curl -X POST https://<your-site>.vercel.app/api/gemini \
-	-H "Content-Type: application/json" \
-	-d '{"question":"Tell me about Vishnu Priya Thanda"}'
+```text
+/api/gemini
 ```
 
-There's also a simple chat page at `/gemini` that uses the endpoint from the browser.
+Set one of these environment variables in Vercel or locally:
+
+- `GENAI_API_KEY`
+- `VERCEL_GEMINI_API_KEY`
+- `GEMINI_API_KEY`
+
+Example request:
+
+```bash
+curl -X POST https://vishnuk8s.vercel.app/api/gemini \
+  -H "Content-Type: application/json" \
+  -d '{"question":"What roles fit Vishnu Priya Thanda?"}'
+```
+
+If no key is configured, the endpoint returns a friendly fallback response.

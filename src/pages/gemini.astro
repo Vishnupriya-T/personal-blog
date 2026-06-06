@@ -1,125 +1,83 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
 ---
 
-<Layout title="Ask Vishnu — AI Assistant" description="Ask questions about my background and experience." pubDate={new Date()}>
-  <section style="max-width:780px;margin:0 auto;padding:1rem;">
-    <h1>Ask Vishnu (AI Assistant)</h1>
-    <p>Ask a question about my background, projects, or skills. This hits the server-side Gemini endpoint and streams the reply.</p>
-
-    <div id="chat" style="display:flex;flex-direction:column;gap:1rem">
-      <div id="messages" style="border:1px solid #eee;padding:1rem;border-radius:8px;min-height:180px;overflow:auto;background:#fff"></div>
-
-      <div style="display:flex;gap:0.5rem;align-items:flex-start">
-        <textarea id="question" rows="3" placeholder="Ask about my experience, projects, or skills" style="flex:1;padding:0.5rem;border-radius:6px;border:1px solid #ddd"></textarea>
-        <div style="display:flex;flex-direction:column;gap:0.5rem">
-          <button id="ask">Send</button>
-          <button id="clear">Clear</button>
-        </div>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <small id="status" style="color:#666"></small>
-        <small style="color:#999">Streaming enabled · multi-turn conversation</small>
-      </div>
-    </div>
-  </section>
-
-  <script type="module">
-    const askBtn = document.getElementById('ask');
-    const clearBtn = document.getElementById('clear');
-    const q = document.getElementById('question');
-    const messagesEl = document.getElementById('messages');
-    const status = document.getElementById('status');
-
-    let messages = [];
-
-    function renderMessages() {
-      messagesEl.innerHTML = messages.map(m => {
-        const cls = m.role === 'user' ? 'user' : 'assistant';
-        return `<div style="margin-bottom:0.75rem"><div style="display:inline-block;max-width:78%;padding:0.6rem;border-radius:8px;${cls==='user'? 'background:#e6f0ff;color:#013;float:right;text-align:right;':'background:#f6f6f8;color:#111;float:left;text-align:left;'}">${escapeHtml(m.text)}</div><div style="clear:both"></div></div>`;
-      }).join('');
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
-
-    function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-    clearBtn.addEventListener('click', () => {
-      messages = [];
-      renderMessages();
-    });
-
-    askBtn.addEventListener('click', async () => {
-      const question = q.value.trim();
-      if (!question) { status.textContent = 'Please enter a question.'; return; }
-      if (question.length > 2000) { status.textContent = 'Question too long (max 2000 chars).'; return; }
-
-      status.textContent = 'Sending...';
-      // Add user message
-      messages.push({ role: 'user', text: question });
-      renderMessages();
-      q.value = '';
-
-      // Prepare assistant placeholder
-      messages.push({ role: 'assistant', text: '' });
-      renderMessages();
-
-      try {
-        const res = await fetch('/api/gemini', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question, history: messages.filter(m=>m.text).slice(0,-1), stream: true }),
-        });
-
-        if (!res.ok) {
-          const err = await res.json().catch(()=>({ error: res.statusText }));
-          messages[messages.length-1].text = 'Error: ' + (err.error || 'Request failed');
-          renderMessages();
-          return;
-        }
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let buf = '';
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buf += decoder.decode(value, { stream: true });
-          const parts = buf.split('\n\n');
-          buf = parts.pop();
-          for (const part of parts) {
-            if (!part) continue;
-            // parse SSE-like `data: {...}` lines
-            const lines = part.split('\n');
-            for (const line of lines) {
-              if (line.startsWith('data: ')) {
-                try {
-                  const payload = JSON.parse(line.slice(6));
-                  if (payload.type === 'chunk') {
-                    messages[messages.length-1].text += payload.text || '';
-                    renderMessages();
-                  }
-                } catch (e) {
-                  // ignore parse errors
-                }
-              }
-            }
-          }
-        }
-
-        // Finalize: if last assistant message still empty, fetch non-stream fallback
-        if (!messages[messages.length-1].text) {
-          const final = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question, history: messages.filter(m=>m.text).slice(0,-1), stream: false }) });
-          const data = await final.json().catch(()=>({ text: '' }));
-          messages[messages.length-1].text = data.text || 'No response';
-        }
-        renderMessages();
-      } catch (err) {
-        messages[messages.length-1].text = 'Request failed: ' + err;
-        renderMessages();
-      } finally {
-        status.textContent = '';
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title="Ask Vishnu"
+      description="Ask Vishnu's portfolio assistant about her background, skills, projects, and technical experience."
+    />
+    <style>
+      main {
+        max-width: 840px;
+        min-height: calc(100vh - 180px);
+        display: grid;
+        align-items: center;
+        padding: 4rem 1.5rem;
       }
-    });
-  </script>
-</Layout>
+
+      .gemini-panel {
+        display: grid;
+        gap: 1.15rem;
+        padding: 1.4rem;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+      }
+
+      .kicker {
+        margin: 0;
+        color: var(--text-subtle);
+        font-family: 'Geist Mono', monospace;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 12ch;
+        font-size: clamp(2.4rem, 7vw, 4.5rem);
+        line-height: 0.95;
+        letter-spacing: -0.06em;
+      }
+
+      p {
+        max-width: 620px;
+        margin: 0;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 0.35rem;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="gemini-panel" aria-label="Ask Vishnu assistant">
+        <p class="kicker">Portfolio assistant</p>
+        <h1>Ask Vishnu on the homepage.</h1>
+        <p>
+          The primary assistant now lives in the homepage hero so visitors can ask
+          about role fit, skills, projects, education, and experience without opening
+          a separate test page.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/#chat-widget">Open assistant</a>
+          <a class="btn btn-outline" href="/about">View profile</a>
+          <a class="btn btn-ghost" href="/blog">Read blog</a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
